@@ -50,14 +50,6 @@ export function DesktopIcons({
           {icon.type === "mail" ? (
             <span className={styles.mailIcon} aria-hidden="true" />
           ) : null}
-          {icon.type === "doom" ? (
-            <img
-              src="/icons/doom-logo.png"
-              alt=""
-              className={styles.doomDesktopIcon}
-              draggable="false"
-            />
-          ) : null}
           {icon.type === "social" ? (
             <img
               src={icon.icon}

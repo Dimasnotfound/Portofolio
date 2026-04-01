@@ -76,7 +76,6 @@ export const windowIds: readonly WindowId[] = [
   "projects",
   "certifications",
   "contact",
-  "doom",
 ];
 
 export const desktopIconIds: readonly DesktopIconId[] = [
@@ -85,7 +84,6 @@ export const desktopIconIds: readonly DesktopIconId[] = [
   "projects",
   "certifications",
   "contact",
-  "doom",
   "linkedin",
   "github",
 ];
@@ -116,11 +114,6 @@ export const desktopIcons: readonly DesktopIconItem[] = [
     label: "Contact",
     type: "mail",
   },
-  {
-    id: "doom",
-    label: "DOOM",
-    type: "doom",
-  },
   ...socialLinks.map((link) => ({
     id: link.id,
     label: link.label,
@@ -136,7 +129,6 @@ export const startMenuItems: readonly WindowId[] = [
   "projects",
   "certifications",
   "contact",
-  "doom",
 ];
 
 export const initialDesktopIconPositions: Record<DesktopIconId, DesktopIconPosition> = {
@@ -145,9 +137,8 @@ export const initialDesktopIconPositions: Record<DesktopIconId, DesktopIconPosit
   projects: { x: 16, y: 240 },
   certifications: { x: 16, y: 352 },
   contact: { x: 16, y: 464 },
-  doom: { x: 128, y: 16 },
-  linkedin: { x: 128, y: 128 },
-  github: { x: 128, y: 240 },
+  linkedin: { x: 128, y: 16 },
+  github: { x: 128, y: 128 },
 };
 
 export const windowLabels: Record<WindowId, WindowMeta> = {
@@ -180,12 +171,6 @@ export const windowLabels: Record<WindowId, WindowMeta> = {
     taskLabel: "Contact",
     address: "C:\\Portfolio\\Contact\\Dimas Juli Pratama\\",
     iconColor: "#ff7c66",
-  },
-  doom: {
-    title: "DOOM",
-    taskLabel: "DOOM",
-    address: "C:\\Games\\DOOM\\doom.exe",
-    iconColor: "#d66a2d",
   },
 };
 
@@ -224,13 +209,6 @@ export const initialWindows: Record<WindowId, WindowState> = {
     maximized: false,
     rect: { x: 294, y: 138, width: 460, height: 430 },
     zIndex: 12,
-  },
-  doom: {
-    visible: false,
-    minimized: false,
-    maximized: false,
-    rect: { x: 246, y: 86, width: 980, height: 620 },
-    zIndex: 10,
   },
 };
 

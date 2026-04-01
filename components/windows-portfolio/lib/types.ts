@@ -3,14 +3,12 @@ export type WindowId =
   | "skills"
   | "projects"
   | "certifications"
-  | "contact"
-  | "doom";
+  | "contact";
 export type DesktopIconId = WindowId | "linkedin" | "github";
 export type DesktopIconType =
   | "profile"
   | "folder"
   | "mail"
-  | "doom"
   | "social"
   | "certificate";
 

@@ -344,29 +344,6 @@ export function WindowContent({
     );
   }
 
-  return (
-    <div className={`${styles.windowBody} ${styles.doomBody}`}>
-      <div className={styles.doomToolbar}>
-        <span className={styles.doomHint}>
-          Arrows bergerak, klik area game untuk fokus, dan gunakan tab baru untuk main
-          fullscreen.
-        </span>
-        <a
-          href="/doom.html"
-          target="_blank"
-          rel="noreferrer"
-          className={styles.doomAction}
-        >
-          Open Fullscreen
-        </a>
-      </div>
-      <iframe
-        src="/doom.html"
-        title="DOOM"
-        className={styles.doomFrame}
-        allow="fullscreen"
-      />
-    </div>
-  );
+  return null;
 }
 
