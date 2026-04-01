@@ -10,7 +10,7 @@ import {
 
 import styles from "./windows-portfolio.module.css";
 
-type WindowId = "about" | "skills" | "projects" | "contact";
+type WindowId = "about" | "skills" | "projects" | "contact" | "doom";
 type DesktopIconId = WindowId | "linkedin" | "github";
 type DesktopIconPosition = {
   x: number;
@@ -127,12 +127,13 @@ const socialLinks = [
   },
 ] as const;
 
-const windowIds: WindowId[] = ["about", "skills", "projects", "contact"];
+const windowIds: WindowId[] = ["about", "skills", "projects", "contact", "doom"];
 const desktopIconIds: DesktopIconId[] = [
   "about",
   "skills",
   "projects",
   "contact",
+  "doom",
   "linkedin",
   "github",
 ];
@@ -141,8 +142,9 @@ const initialDesktopIconPositions: Record<DesktopIconId, DesktopIconPosition> = 
   skills: { x: 16, y: 128 },
   projects: { x: 16, y: 240 },
   contact: { x: 16, y: 352 },
-  linkedin: { x: 128, y: 16 },
-  github: { x: 128, y: 128 },
+  doom: { x: 128, y: 16 },
+  linkedin: { x: 128, y: 128 },
+  github: { x: 128, y: 240 },
 };
 
 const windowLabels: Record<
@@ -178,6 +180,12 @@ const windowLabels: Record<
     address: "C:\\Portfolio\\Contact\\Dimas Juli Pratama\\",
     iconColor: "#ff7c66",
   },
+  doom: {
+    title: "DOOM",
+    taskLabel: "DOOM",
+    address: "C:\\Games\\DOOM\\doom.exe",
+    iconColor: "#d66a2d",
+  },
 };
 
 const initialWindows: Record<WindowId, WindowState> = {
@@ -208,6 +216,13 @@ const initialWindows: Record<WindowId, WindowState> = {
     maximized: false,
     rect: { x: 294, y: 138, width: 460, height: 430 },
     zIndex: 12,
+  },
+  doom: {
+    visible: false,
+    minimized: false,
+    maximized: false,
+    rect: { x: 246, y: 86, width: 980, height: 620 },
+    zIndex: 10,
   },
 };
 
@@ -1086,6 +1101,11 @@ function WindowsPortfolio() {
       label: "Contact",
       type: "mail" as const,
     },
+    {
+      id: "doom" as const,
+      label: "DOOM",
+      type: "doom" as const,
+    },
     ...socialLinks.map((link) => ({
       id: link.id,
       label: link.label,
@@ -1135,6 +1155,14 @@ function WindowsPortfolio() {
             ) : null}
             {icon.type === "folder" ? <span className={styles.folderIcon} /> : null}
             {icon.type === "mail" ? <span className={styles.mailIcon} aria-hidden="true" /> : null}
+            {icon.type === "doom" ? (
+              <img
+                src="/icons/doom-logo.png"
+                alt=""
+                className={styles.doomDesktopIcon}
+                draggable="false"
+              />
+            ) : null}
             {icon.type === "social" ? (
               <img
                 src={icon.icon}
@@ -1487,6 +1515,30 @@ function WindowsPortfolio() {
               </div>
             ) : null}
 
+            {id === "doom" ? (
+              <div className={`${styles.windowBody} ${styles.doomBody}`}>
+                <div className={styles.doomToolbar}>
+                  <span className={styles.doomHint}>
+                    Arrows bergerak, klik area game untuk fokus, dan gunakan tab baru untuk main fullscreen.
+                  </span>
+                  <a
+                    href="/doom.html"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.doomAction}
+                  >
+                    Open Fullscreen
+                  </a>
+                </div>
+                <iframe
+                  src="/doom.html"
+                  title="DOOM"
+                  className={styles.doomFrame}
+                  allow="fullscreen"
+                />
+              </div>
+            ) : null}
+
             {!currentWindow.maximized ? (
               <button
                 type="button"
@@ -1602,6 +1654,13 @@ function WindowsPortfolio() {
             onClick={() => openWindow("contact")}
           >
             Contact
+          </button>
+          <button
+            type="button"
+            className={styles.startMenuItem}
+            onClick={() => openWindow("doom")}
+          >
+            DOOM
           </button>
         </div>
       ) : null}
