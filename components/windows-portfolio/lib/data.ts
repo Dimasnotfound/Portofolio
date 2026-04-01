@@ -1,4 +1,5 @@
 import type {
+  Certification,
   DesktopIconId,
   DesktopIconItem,
   DesktopIconPosition,
@@ -73,6 +74,7 @@ export const windowIds: readonly WindowId[] = [
   "about",
   "skills",
   "projects",
+  "certifications",
   "contact",
   "doom",
 ];
@@ -81,6 +83,7 @@ export const desktopIconIds: readonly DesktopIconId[] = [
   "about",
   "skills",
   "projects",
+  "certifications",
   "contact",
   "doom",
   "linkedin",
@@ -102,6 +105,11 @@ export const desktopIcons: readonly DesktopIconItem[] = [
     id: "projects",
     label: "Projects",
     type: "folder",
+  },
+  {
+    id: "certifications",
+    label: "Sertifikasi",
+    type: "certificate",
   },
   {
     id: "contact",
@@ -126,6 +134,7 @@ export const startMenuItems: readonly WindowId[] = [
   "about",
   "skills",
   "projects",
+  "certifications",
   "contact",
   "doom",
 ];
@@ -134,7 +143,8 @@ export const initialDesktopIconPositions: Record<DesktopIconId, DesktopIconPosit
   about: { x: 16, y: 16 },
   skills: { x: 16, y: 128 },
   projects: { x: 16, y: 240 },
-  contact: { x: 16, y: 352 },
+  certifications: { x: 16, y: 352 },
+  contact: { x: 16, y: 464 },
   doom: { x: 128, y: 16 },
   linkedin: { x: 128, y: 128 },
   github: { x: 128, y: 240 },
@@ -158,6 +168,12 @@ export const windowLabels: Record<WindowId, WindowMeta> = {
     taskLabel: "Projects",
     address: "C:\\Portfolio\\Projects\\Dimas Juli Pratama\\",
     iconColor: "#55d29c",
+  },
+  certifications: {
+    title: "Sertifikasi - Dimas Juli Pratama",
+    taskLabel: "Sertifikasi",
+    address: "C:\\Portfolio\\Certifications\\Dimas Juli Pratama\\",
+    iconColor: "#d5a334",
   },
   contact: {
     title: "Contact - Dimas Juli Pratama",
@@ -194,6 +210,13 @@ export const initialWindows: Record<WindowId, WindowState> = {
     maximized: false,
     rect: { x: 228, y: 112, width: 600, height: 470 },
     zIndex: 14,
+  },
+  certifications: {
+    visible: false,
+    minimized: false,
+    maximized: false,
+    rect: { x: 214, y: 96, width: 950, height: 590 },
+    zIndex: 13,
   },
   contact: {
     visible: false,
@@ -305,5 +328,58 @@ export const projects: Project[] = [
       "Starter kit REST API dengan autentikasi JWT, rate limiting, dokumentasi Swagger, dan test coverage tinggi.",
     tech: ["Node.js", "Express", "Jest", "Docker"],
     accent: "#a76cf5",
+  },
+];
+
+export const certifications: Certification[] = [
+  {
+    title: "Program Pemagangan Programmer",
+    issuer: "PT Javan Cipta Solusi",
+    issuedAt: "Program 2024",
+    description:
+      "Sertifikat pemagangan yang menandai keterlibatan langsung sebagai Programmer dalam lingkungan kerja profesional dan pengembangan software nyata.",
+    preview: "/certifications/internship-javan-cipta-solusi.jpg",
+    file: "/certifications/internship-javan-cipta-solusi.pdf",
+    accent: "#1a64b8",
+  },
+  {
+    title: "Flutter & Firebase Chat App: Master Flutter and Firebase",
+    issuer: "Udemy",
+    issuedAt: "2025",
+    description:
+      "Membahas pembuatan chat app mobile dengan Flutter dan Firebase, termasuk struktur UI, autentikasi, dan alur data realtime.",
+    preview: "/certifications/udemy-flutter-firebase-chat-app.jpg",
+    file: "/certifications/udemy-flutter-firebase-chat-app.pdf",
+    accent: "#8f3fff",
+  },
+  {
+    title: "Master Course on Critical Thinking Skills & Decision Making",
+    issuer: "Udemy",
+    issuedAt: "2025",
+    description:
+      "Menguatkan cara berpikir analitis, problem-solving, dan pengambilan keputusan yang relevan untuk kerja produk maupun engineering.",
+    preview: "/certifications/udemy-critical-thinking-decision-making.jpg",
+    file: "/certifications/udemy-critical-thinking-decision-making.pdf",
+    accent: "#d98a1d",
+  },
+  {
+    title: "Frontend Web Development HTML5 CSS3 JavaScript and Bootstrap",
+    issuer: "Udemy",
+    issuedAt: "2025",
+    description:
+      "Fokus pada fondasi frontend modern, dari struktur HTML, styling CSS, interaktivitas JavaScript, hingga penggunaan Bootstrap untuk UI cepat.",
+    preview: "/certifications/udemy-frontend-web-development.jpg",
+    file: "/certifications/udemy-frontend-web-development.pdf",
+    accent: "#1482d6",
+  },
+  {
+    title: "Flutter REST Movie App: Master Flutter REST API Development",
+    issuer: "Udemy",
+    issuedAt: "2025",
+    description:
+      "Berisi praktik konsumsi REST API di Flutter dengan studi kasus aplikasi movie, termasuk request handling, data mapping, dan flow aplikasi mobile.",
+    preview: "/certifications/udemy-flutter-rest-movie-app.jpg",
+    file: "/certifications/udemy-flutter-rest-movie-app.pdf",
+    accent: "#1f9f66",
   },
 ];

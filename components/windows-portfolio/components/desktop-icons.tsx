@@ -44,6 +44,9 @@ export function DesktopIcons({
             <span className={styles.avatarIcon} aria-hidden="true" />
           ) : null}
           {icon.type === "folder" ? <span className={styles.folderIcon} /> : null}
+          {icon.type === "certificate" ? (
+            <span className={styles.certificateIcon} aria-hidden="true" />
+          ) : null}
           {icon.type === "mail" ? (
             <span className={styles.mailIcon} aria-hidden="true" />
           ) : null}

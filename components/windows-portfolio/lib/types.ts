@@ -1,6 +1,18 @@
-export type WindowId = "about" | "skills" | "projects" | "contact" | "doom";
+export type WindowId =
+  | "about"
+  | "skills"
+  | "projects"
+  | "certifications"
+  | "contact"
+  | "doom";
 export type DesktopIconId = WindowId | "linkedin" | "github";
-export type DesktopIconType = "profile" | "folder" | "mail" | "doom" | "social";
+export type DesktopIconType =
+  | "profile"
+  | "folder"
+  | "mail"
+  | "doom"
+  | "social"
+  | "certificate";
 
 export type DesktopIconPosition = {
   x: number;
@@ -39,6 +51,16 @@ export type Project = {
   subtitle: string;
   description: string;
   tech: string[];
+  accent: string;
+};
+
+export type Certification = {
+  title: string;
+  issuer: string;
+  issuedAt: string;
+  description: string;
+  preview: string;
+  file: string;
   accent: string;
 };
 

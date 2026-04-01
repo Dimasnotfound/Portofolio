@@ -1,7 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 
 import styles from "../windows-portfolio.module.css";
-import { projects, skills } from "../lib/data";
+import { certifications, projects, skills } from "../lib/data";
 import type { ContactForm, Project, WindowId } from "../lib/types";
 
 type WindowContentProps = {
@@ -41,6 +41,13 @@ export function WindowContent({
             onClick={() => onOpenWindow("projects")}
           >
             Projects
+          </button>
+          <button
+            type="button"
+            className={styles.sidebarLink}
+            onClick={() => onOpenWindow("certifications")}
+          >
+            Sertifikasi
           </button>
           <button
             type="button"
@@ -203,6 +210,65 @@ export function WindowContent({
     );
   }
 
+  if (id === "certifications") {
+    return (
+      <div className={styles.windowBody}>
+        <h2 className={styles.sectionTitle}>Sertifikasi</h2>
+        <p className={styles.certificationLead}>
+          Kumpulan sertifikat yang mendukung jalur belajar saya di pengembangan software,
+          mobile development, frontend, problem-solving, dan pengalaman kerja profesional.
+        </p>
+
+        <div className={styles.certificationList}>
+          {certifications.map((certification) => (
+            <article key={certification.title} className={styles.certificationCard}>
+              <div className={styles.certificationPreviewPane}>
+                <img
+                  src={certification.preview}
+                  alt={certification.title}
+                  className={styles.certificationPreview}
+                  draggable="false"
+                />
+              </div>
+
+              <div className={styles.certificationMeta}>
+                <div className={styles.certificationHeader}>
+                  <span
+                    className={styles.certificationAccent}
+                    style={{
+                      background: `linear-gradient(135deg, ${certification.accent}, #123155)`,
+                    }}
+                  />
+                  <div>
+                    <h3>{certification.title}</h3>
+                    <p>
+                      {certification.issuer} | {certification.issuedAt}
+                    </p>
+                  </div>
+                </div>
+
+                <p className={styles.certificationDescription}>
+                  {certification.description}
+                </p>
+
+                <div className={styles.certificationActions}>
+                  <a
+                    href={certification.file}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`${styles.xpButton} ${styles.primaryButton} ${styles.certificationLink}`}
+                  >
+                    Buka PDF
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (id === "contact") {
     return (
       <div className={styles.windowBody}>
@@ -303,3 +369,4 @@ export function WindowContent({
     </div>
   );
 }
+
