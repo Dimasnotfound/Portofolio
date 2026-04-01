@@ -9,7 +9,7 @@ type TaskbarProps = {
   clockTime: string;
   openWindow: (id: WindowId) => void;
   onToggleStartMenu: () => void;
-  startButtonRef: RefObject<HTMLButtonElement>;
+  startButtonRef: RefObject<HTMLButtonElement | null>;
   taskbarWindows: readonly WindowId[];
   toggleTaskWindow: (id: WindowId) => void;
   windows: Record<WindowId, WindowState>;

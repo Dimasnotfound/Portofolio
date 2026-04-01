@@ -6,7 +6,7 @@ import type { WindowId } from "../lib/types";
 
 type StartMenuProps = {
   openWindow: (id: WindowId) => void;
-  startMenuRef: RefObject<HTMLDivElement>;
+  startMenuRef: RefObject<HTMLDivElement | null>;
   startMenuOpen: boolean;
 };
 
