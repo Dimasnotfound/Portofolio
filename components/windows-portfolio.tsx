@@ -930,7 +930,14 @@ function WindowsPortfolio() {
                   <h2 className={styles.sectionTitle}>Tentang Saya</h2>
 
                   <div className={styles.aboutHeader}>
-                    <div className={styles.profileBadge}>DJ</div>
+                    <div className={styles.profileBadge}>
+                      <img
+                        src="/profile-dimas.jpg"
+                        alt="Foto Dimas Juli Pratama"
+                        className={styles.profileBadgeImage}
+                        draggable="false"
+                      />
+                    </div>
                     <div className={styles.aboutCopy}>
                       <h3>Dimas Juli Pratama</h3>
                       <p>
