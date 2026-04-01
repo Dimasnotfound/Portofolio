@@ -1330,18 +1330,6 @@ function WindowsPortfolio() {
             {id === "skills" ? (
               <div className={styles.windowBody}>
                 <h2 className={styles.sectionTitle}>My Skills</h2>
-                <div className={styles.skillsIntroPanel}>
-                  <div className={styles.skillsIntroBadge}>CV</div>
-                  <div className={styles.skillsIntroCopy}>
-                    <h3>Stack yang saya gunakan di proyek nyata</h3>
-                    <p>
-                      Susunan skill ini mengikuti resume saya: fullstack web,
-                      aplikasi mobile, integrasi API, AI-driven systems, dan
-                      tooling development yang dipakai di freelance, internship,
-                      maupun produk yang sedang berjalan.
-                    </p>
-                  </div>
-                </div>
 
                 <div className={styles.skillsCatalog}>
                   {skills.map((group) => (

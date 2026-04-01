@@ -407,39 +407,6 @@
   font-size: 11px;
 }
 
-.skillsIntroPanel {
-  display: grid;
-  grid-template-columns: 68px minmax(0, 1fr);
-  gap: 14px;
-  margin-bottom: 18px;
-  padding: 14px 16px;
-  border: 1px solid #a9c7ea;
-  background: linear-gradient(180deg, #eef6ff 0%, #d7e8ff 100%);
-}
-
-.skillsIntroBadge {
-  width: 68px;
-  height: 68px;
-  border: 2px solid #2c68ba;
-  border-radius: 14px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(180deg, #6dbdff 0%, #2c6bc2 100%);
-  color: #fff;
-  font-family: var(--font-pixel);
-  font-size: 20px;
-  font-weight: 700;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
-}
-
-.skillsIntroCopy h3 {
-  margin-bottom: 6px;
-  color: #123f93;
-  font-family: var(--font-pixel);
-  font-size: 13px;
-  font-weight: 700;
-}
-
 .skillsCatalog {
   display: grid;
   gap: 14px;
@@ -999,10 +966,6 @@
 
   .projectGrid,
   .statsRow {
-    grid-template-columns: 1fr;
-  }
-
-  .skillsIntroPanel {
     grid-template-columns: 1fr;
   }
 
