@@ -12,6 +12,10 @@ import styles from "./windows-portfolio.module.css";
 
 type WindowId = "about" | "skills" | "projects" | "contact";
 type DesktopIconId = WindowId | "linkedin" | "github";
+type DesktopIconPosition = {
+  x: number;
+  y: number;
+};
 
 type WindowRect = {
   x: number;
@@ -47,6 +51,9 @@ const TASKBAR_HEIGHT = 38;
 const WINDOW_MARGIN = 8;
 const MIN_WINDOW_WIDTH = 280;
 const MIN_WINDOW_HEIGHT = 280;
+const DESKTOP_ICON_WIDTH = 92;
+const DESKTOP_ICON_HEIGHT = 96;
+const DESKTOP_ICON_MARGIN = 8;
 const trayIcons = [
   {
     src: "/icons/tray-green-shield.png",
@@ -107,6 +114,14 @@ const socialLinks = [
 ] as const;
 
 const windowIds: WindowId[] = ["about", "skills", "projects", "contact"];
+const initialDesktopIconPositions: Record<DesktopIconId, DesktopIconPosition> = {
+  about: { x: 16, y: 16 },
+  skills: { x: 16, y: 106 },
+  projects: { x: 16, y: 196 },
+  contact: { x: 16, y: 286 },
+  linkedin: { x: 16, y: 376 },
+  github: { x: 16, y: 466 },
+};
 
 const windowLabels: Record<
   WindowId,
@@ -288,9 +303,22 @@ function WindowsPortfolio() {
     startY: number;
     startRect: WindowRect;
   } | null>(null);
+  const iconDragRef = useRef<{
+    id: DesktopIconId;
+    startX: number;
+    startY: number;
+    offsetX: number;
+    offsetY: number;
+    width: number;
+    height: number;
+    moved: boolean;
+  } | null>(null);
+  const suppressIconClickRef = useRef<DesktopIconId | null>(null);
 
   const [windows, setWindows] =
     useState<Record<WindowId, WindowState>>(initialWindows);
+  const [iconPositions, setIconPositions] =
+    useState<Record<DesktopIconId, DesktopIconPosition>>(initialDesktopIconPositions);
   const [selectedIcon, setSelectedIcon] = useState<DesktopIconId>("about");
   const [startMenuOpen, setStartMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -331,6 +359,29 @@ function WindowsPortfolio() {
       height,
     };
   };
+
+  const fitIconPosition = (
+    position: DesktopIconPosition,
+    bounds: { width: number; height: number },
+    size = { width: DESKTOP_ICON_WIDTH, height: DESKTOP_ICON_HEIGHT },
+  ) => ({
+    x: clamp(
+      position.x,
+      DESKTOP_ICON_MARGIN,
+      Math.max(
+        DESKTOP_ICON_MARGIN,
+        bounds.width - size.width - DESKTOP_ICON_MARGIN,
+      ),
+    ),
+    y: clamp(
+      position.y,
+      DESKTOP_ICON_MARGIN,
+      Math.max(
+        DESKTOP_ICON_MARGIN,
+        bounds.height - size.height - DESKTOP_ICON_MARGIN,
+      ),
+    ),
+  });
 
   const bringToFront = (id: WindowId) => {
     setWindows((current) => {
@@ -486,9 +537,40 @@ function WindowsPortfolio() {
   }, []);
 
   useEffect(() => {
+    const syncDesktopIconsToViewport = () => {
+      const bounds = getDesktopBounds();
+
+      setIconPositions((current) => {
+        let changed = false;
+        const nextState = { ...current };
+
+        for (const id of Object.keys(current) as DesktopIconId[]) {
+          const nextPosition = fitIconPosition(current[id], bounds);
+
+          if (
+            nextPosition.x !== current[id].x ||
+            nextPosition.y !== current[id].y
+          ) {
+            changed = true;
+            nextState[id] = nextPosition;
+          }
+        }
+
+        return changed ? nextState : current;
+      });
+    };
+
+    syncDesktopIconsToViewport();
+    window.addEventListener("resize", syncDesktopIconsToViewport);
+
+    return () => window.removeEventListener("resize", syncDesktopIconsToViewport);
+  }, []);
+
+  useEffect(() => {
     const handleMove = (event: MouseEvent) => {
       const dragState = dragRef.current;
       const resizeState = resizeRef.current;
+      const iconDragState = iconDragRef.current;
 
       if (resizeState) {
         setWindows((current) => {
@@ -541,6 +623,47 @@ function WindowsPortfolio() {
         return;
       }
 
+      if (iconDragState) {
+        const deltaX = event.clientX - iconDragState.startX;
+        const deltaY = event.clientY - iconDragState.startY;
+
+        if (!iconDragState.moved && Math.abs(deltaX) < 4 && Math.abs(deltaY) < 4) {
+          return;
+        }
+
+        iconDragState.moved = true;
+
+        setIconPositions((current) => {
+          const bounds = getDesktopBounds();
+          const nextPosition = fitIconPosition(
+            {
+              x: event.clientX - iconDragState.offsetX,
+              y: event.clientY - iconDragState.offsetY,
+            },
+            bounds,
+            {
+              width: iconDragState.width,
+              height: iconDragState.height,
+            },
+          );
+          const currentPosition = current[iconDragState.id];
+
+          if (
+            nextPosition.x === currentPosition.x &&
+            nextPosition.y === currentPosition.y
+          ) {
+            return current;
+          }
+
+          return {
+            ...current,
+            [iconDragState.id]: nextPosition,
+          };
+        });
+
+        return;
+      }
+
       if (!dragState) {
         return;
       }
@@ -584,8 +707,15 @@ function WindowsPortfolio() {
     };
 
     const stopDragging = () => {
+      const iconDragState = iconDragRef.current;
+
+      if (iconDragState?.moved) {
+        suppressIconClickRef.current = iconDragState.id;
+      }
+
       dragRef.current = null;
       resizeRef.current = null;
+      iconDragRef.current = null;
     };
 
     window.addEventListener("mousemove", handleMove);
@@ -659,6 +789,7 @@ function WindowsPortfolio() {
     }
 
     bringToFront(id);
+    iconDragRef.current = null;
     resizeRef.current = null;
     dragRef.current = {
       id,
@@ -685,6 +816,7 @@ function WindowsPortfolio() {
     event.stopPropagation();
     bringToFront(id);
     dragRef.current = null;
+    iconDragRef.current = null;
     resizeRef.current = {
       id,
       startX: event.clientX,
@@ -711,6 +843,31 @@ function WindowsPortfolio() {
 
   const openExternalLink = (href: string) => {
     window.open(href, "_blank", "noopener,noreferrer");
+  };
+
+  const startDesktopIconDrag = (
+    event: ReactMouseEvent<HTMLButtonElement>,
+    id: DesktopIconId,
+  ) => {
+    if (event.button !== 0) {
+      return;
+    }
+
+    event.preventDefault();
+    const rect = event.currentTarget.getBoundingClientRect();
+    setSelectedIcon(id);
+    dragRef.current = null;
+    resizeRef.current = null;
+    iconDragRef.current = {
+      id,
+      startX: event.clientX,
+      startY: event.clientY,
+      offsetX: event.clientX - rect.left,
+      offsetY: event.clientY - rect.top,
+      width: rect.width,
+      height: rect.height,
+      moved: false,
+    };
   };
 
   const handleContactSubmit = () => {
@@ -781,14 +938,14 @@ function WindowsPortfolio() {
             className={`${styles.desktopIcon} ${
               selectedIcon === icon.id ? styles.desktopIconActive : ""
             }`}
+            style={{
+              left: `${iconPositions[icon.id].x}px`,
+              top: `${iconPositions[icon.id].y}px`,
+            }}
+            onMouseDown={(event) => startDesktopIconDrag(event, icon.id)}
             onClick={() => {
-              if (selectedIcon === icon.id) {
-                if (icon.type === "social") {
-                  openExternalLink(icon.href);
-                  return;
-                }
-
-                openWindow(icon.id);
+              if (suppressIconClickRef.current === icon.id) {
+                suppressIconClickRef.current = null;
                 return;
               }
 

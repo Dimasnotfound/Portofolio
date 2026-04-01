@@ -31,16 +31,14 @@
 
 .iconRail {
   position: absolute;
-  top: 16px;
-  left: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  inset: 0 0 38px;
   z-index: 2;
 }
 
 .desktopIcon {
-  width: 82px;
+  position: absolute;
+  width: 92px;
+  min-height: 96px;
   padding: 6px 4px;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -49,6 +47,7 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  justify-content: flex-start;
   color: #fff;
   cursor: pointer;
 }
@@ -60,11 +59,13 @@
 }
 
 .desktopIconLabel {
+  width: 100%;
   font-family: var(--font-pixel);
   font-size: 11px;
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
+  word-break: break-word;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.75);
 }
 
@@ -885,13 +886,6 @@
 }
 
 @media (max-width: 900px) {
-  .iconRail {
-    flex-direction: row;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    max-width: calc(100% - 32px);
-  }
-
   .aboutLayout {
     grid-template-columns: 1fr;
   }
