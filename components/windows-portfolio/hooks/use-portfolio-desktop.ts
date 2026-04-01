@@ -56,7 +56,8 @@ export function usePortfolioDesktop() {
   const [startMenuOpen, setStartMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [dialog, setDialog] = useState<DialogState | null>(null);
-  const [clock, setClock] = useState(() => formatClock(new Date()));
+  // Avoid SSR/client hydration mismatches from time-sensitive values.
+  const [clock, setClock] = useState(() => ({ time: "--:-- --" }));
   const [contactForm, setContactForm] = useState<ContactForm>({
     name: "",
     email: "",
