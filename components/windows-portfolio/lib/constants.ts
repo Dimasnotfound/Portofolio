@@ -1,0 +1,9 @@
+export const TASKBAR_HEIGHT = 38;
+export const WINDOW_MARGIN = 8;
+export const MIN_WINDOW_WIDTH = 280;
+export const MIN_WINDOW_HEIGHT = 280;
+export const DESKTOP_ICON_WIDTH = 92;
+export const DESKTOP_ICON_HEIGHT = 96;
+export const DESKTOP_ICON_MARGIN = 16;
+export const DESKTOP_ICON_GRID_WIDTH = 112;
+export const DESKTOP_ICON_GRID_HEIGHT = 112;
