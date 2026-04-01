@@ -54,8 +54,8 @@ const MIN_WINDOW_HEIGHT = 280;
 const DESKTOP_ICON_WIDTH = 92;
 const DESKTOP_ICON_HEIGHT = 96;
 const DESKTOP_ICON_MARGIN = 16;
-const DESKTOP_ICON_GRID_WIDTH = 100;
-const DESKTOP_ICON_GRID_HEIGHT = 100;
+const DESKTOP_ICON_GRID_WIDTH = 112;
+const DESKTOP_ICON_GRID_HEIGHT = 112;
 const trayIcons = [
   {
     src: "/icons/tray-green-shield.png",
@@ -126,11 +126,11 @@ const desktopIconIds: DesktopIconId[] = [
 ];
 const initialDesktopIconPositions: Record<DesktopIconId, DesktopIconPosition> = {
   about: { x: 16, y: 16 },
-  skills: { x: 16, y: 116 },
-  projects: { x: 16, y: 216 },
-  contact: { x: 16, y: 316 },
-  linkedin: { x: 16, y: 416 },
-  github: { x: 16, y: 516 },
+  skills: { x: 16, y: 128 },
+  projects: { x: 16, y: 240 },
+  contact: { x: 16, y: 352 },
+  linkedin: { x: 128, y: 16 },
+  github: { x: 128, y: 128 },
 };
 
 const windowLabels: Record<
@@ -173,7 +173,7 @@ const initialWindows: Record<WindowId, WindowState> = {
     visible: true,
     minimized: false,
     maximized: false,
-    rect: { x: 96, y: 58, width: 580, height: 470 },
+    rect: { x: 492, y: 74, width: 1240, height: 575 },
     zIndex: 20,
   },
   skills: {
