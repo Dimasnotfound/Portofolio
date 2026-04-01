@@ -53,7 +53,9 @@ const MIN_WINDOW_WIDTH = 280;
 const MIN_WINDOW_HEIGHT = 280;
 const DESKTOP_ICON_WIDTH = 92;
 const DESKTOP_ICON_HEIGHT = 96;
-const DESKTOP_ICON_MARGIN = 8;
+const DESKTOP_ICON_MARGIN = 16;
+const DESKTOP_ICON_GRID_WIDTH = 100;
+const DESKTOP_ICON_GRID_HEIGHT = 100;
 const trayIcons = [
   {
     src: "/icons/tray-green-shield.png",
@@ -114,13 +116,21 @@ const socialLinks = [
 ] as const;
 
 const windowIds: WindowId[] = ["about", "skills", "projects", "contact"];
+const desktopIconIds: DesktopIconId[] = [
+  "about",
+  "skills",
+  "projects",
+  "contact",
+  "linkedin",
+  "github",
+];
 const initialDesktopIconPositions: Record<DesktopIconId, DesktopIconPosition> = {
   about: { x: 16, y: 16 },
-  skills: { x: 16, y: 106 },
-  projects: { x: 16, y: 196 },
-  contact: { x: 16, y: 286 },
-  linkedin: { x: 16, y: 376 },
-  github: { x: 16, y: 466 },
+  skills: { x: 16, y: 116 },
+  projects: { x: 16, y: 216 },
+  contact: { x: 16, y: 316 },
+  linkedin: { x: 16, y: 416 },
+  github: { x: 16, y: 516 },
 };
 
 const windowLabels: Record<
@@ -383,6 +393,104 @@ function WindowsPortfolio() {
     ),
   });
 
+  const getIconGridLimits = (
+    bounds: { width: number; height: number },
+    size = { width: DESKTOP_ICON_WIDTH, height: DESKTOP_ICON_HEIGHT },
+  ) => ({
+    columns: Math.max(
+      1,
+      Math.floor(
+        Math.max(0, bounds.width - size.width - DESKTOP_ICON_MARGIN * 2) /
+          DESKTOP_ICON_GRID_WIDTH,
+      ) + 1,
+    ),
+    rows: Math.max(
+      1,
+      Math.floor(
+        Math.max(0, bounds.height - size.height - DESKTOP_ICON_MARGIN * 2) /
+          DESKTOP_ICON_GRID_HEIGHT,
+      ) + 1,
+    ),
+  });
+
+  const getGridCellKey = (column: number, row: number) => `${column}:${row}`;
+
+  const getIconGridCell = (
+    position: DesktopIconPosition,
+    bounds: { width: number; height: number },
+    size = { width: DESKTOP_ICON_WIDTH, height: DESKTOP_ICON_HEIGHT },
+  ) => {
+    const limits = getIconGridLimits(bounds, size);
+
+    return {
+      column: clamp(
+        Math.round((position.x - DESKTOP_ICON_MARGIN) / DESKTOP_ICON_GRID_WIDTH),
+        0,
+        limits.columns - 1,
+      ),
+      row: clamp(
+        Math.round((position.y - DESKTOP_ICON_MARGIN) / DESKTOP_ICON_GRID_HEIGHT),
+        0,
+        limits.rows - 1,
+      ),
+    };
+  };
+
+  const getIconGridPosition = (column: number, row: number): DesktopIconPosition => ({
+    x: DESKTOP_ICON_MARGIN + column * DESKTOP_ICON_GRID_WIDTH,
+    y: DESKTOP_ICON_MARGIN + row * DESKTOP_ICON_GRID_HEIGHT,
+  });
+
+  const resolveSnappedIconPosition = (
+    id: DesktopIconId,
+    desiredPosition: DesktopIconPosition,
+    positions: Record<DesktopIconId, DesktopIconPosition>,
+    bounds: { width: number; height: number },
+    size = { width: DESKTOP_ICON_WIDTH, height: DESKTOP_ICON_HEIGHT },
+  ) => {
+    const limits = getIconGridLimits(bounds, size);
+    const targetCell = getIconGridCell(desiredPosition, bounds, size);
+    const occupiedCells = new Set<string>();
+
+    for (const otherId of desktopIconIds) {
+      if (otherId === id) {
+        continue;
+      }
+
+      const otherPosition = positions[otherId];
+
+      if (!otherPosition) {
+        continue;
+      }
+
+      const otherCell = getIconGridCell(otherPosition, bounds, size);
+      occupiedCells.add(getGridCellKey(otherCell.column, otherCell.row));
+    }
+
+    let bestCell = targetCell;
+    let bestDistance = Number.POSITIVE_INFINITY;
+
+    for (let row = 0; row < limits.rows; row += 1) {
+      for (let column = 0; column < limits.columns; column += 1) {
+        const cellKey = getGridCellKey(column, row);
+
+        if (occupiedCells.has(cellKey)) {
+          continue;
+        }
+
+        const distance =
+          Math.abs(column - targetCell.column) + Math.abs(row - targetCell.row);
+
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestCell = { column, row };
+        }
+      }
+    }
+
+    return getIconGridPosition(bestCell.column, bestCell.row);
+  };
+
   const bringToFront = (id: WindowId) => {
     setWindows((current) => {
       const nextZ = zCounterRef.current + 1;
@@ -542,17 +650,21 @@ function WindowsPortfolio() {
 
       setIconPositions((current) => {
         let changed = false;
-        const nextState = { ...current };
+        const nextState = {} as Record<DesktopIconId, DesktopIconPosition>;
 
-        for (const id of Object.keys(current) as DesktopIconId[]) {
-          const nextPosition = fitIconPosition(current[id], bounds);
+        for (const id of desktopIconIds) {
+          const fittedPosition = fitIconPosition(current[id], bounds);
+          const nextPosition = resolveSnappedIconPosition(
+            id,
+            fittedPosition,
+            { ...current, ...nextState },
+            bounds,
+          );
 
-          if (
-            nextPosition.x !== current[id].x ||
-            nextPosition.y !== current[id].y
-          ) {
+          nextState[id] = nextPosition;
+
+          if (nextPosition.x !== current[id].x || nextPosition.y !== current[id].y) {
             changed = true;
-            nextState[id] = nextPosition;
           }
         }
 
@@ -711,6 +823,32 @@ function WindowsPortfolio() {
 
       if (iconDragState?.moved) {
         suppressIconClickRef.current = iconDragState.id;
+        setIconPositions((current) => {
+          const bounds = getDesktopBounds();
+          const nextPosition = resolveSnappedIconPosition(
+            iconDragState.id,
+            current[iconDragState.id],
+            current,
+            bounds,
+            {
+              width: iconDragState.width,
+              height: iconDragState.height,
+            },
+          );
+          const currentPosition = current[iconDragState.id];
+
+          if (
+            nextPosition.x === currentPosition.x &&
+            nextPosition.y === currentPosition.y
+          ) {
+            return current;
+          }
+
+          return {
+            ...current,
+            [iconDragState.id]: nextPosition,
+          };
+        });
       }
 
       dragRef.current = null;
