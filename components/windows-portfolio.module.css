@@ -1,0 +1,944 @@
+.desktop {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  user-select: none;
+  cursor: default;
+}
+
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  background-color: #355f7b;
+  background-image: url("/wallpaper-bg.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.wallpaper::before {
+  content: none;
+}
+
+.wallpaper::after {
+  content: none;
+}
+
+.desktopGlow {
+  display: none;
+}
+
+.iconRail {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2;
+}
+
+.desktopIcon {
+  width: 82px;
+  padding: 6px 4px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.desktopIcon:hover,
+.desktopIconActive {
+  background: rgba(34, 94, 181, 0.5);
+  border-color: rgba(255, 255, 255, 0.65);
+}
+
+.desktopIconLabel {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.75);
+}
+
+.avatarIcon,
+.mailIcon,
+.socialDesktopIcon {
+  width: 36px;
+  height: 36px;
+  display: block;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.25));
+}
+
+.avatarIcon,
+.mailIcon {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.avatarIcon {
+  background-image: url("/icons/xp-users.png");
+}
+
+.mailIcon {
+  background-image: url("/icons/xp-contact.png");
+}
+
+.socialDesktopIcon {
+  object-fit: contain;
+}
+
+.folderIcon {
+  width: 34px;
+  height: 34px;
+  margin-top: 2px;
+  background: url("/icons/xp-folder.png") center center / contain no-repeat;
+}
+
+.folderIcon::before {
+  content: none;
+}
+
+.folderIcon::after {
+  content: none;
+}
+
+.window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-width: min(280px, calc(100vw - 16px));
+  min-height: min(280px, calc(100vh - 56px));
+  background: #f1efe3;
+  border: 2px solid #0e55d8;
+  border-radius: 8px 8px 5px 5px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+}
+
+.resizeHandle {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background:
+    linear-gradient(135deg, transparent 0 43%, rgba(83, 120, 174, 0.82) 43% 49%, transparent 49% 60%, rgba(255, 255, 255, 0.96) 60% 66%, transparent 66%),
+    linear-gradient(135deg, transparent 0 57%, rgba(83, 120, 174, 0.82) 57% 63%, transparent 63% 74%, rgba(255, 255, 255, 0.96) 74% 80%, transparent 80%);
+  cursor: nwse-resize;
+  opacity: 0.95;
+}
+
+.resizeHandle:hover {
+  filter: brightness(1.08);
+}
+
+.resizeHandle:active {
+  filter: brightness(0.96);
+}
+
+.windowInactive .titlebar {
+  background: linear-gradient(180deg, #95aecb 0%, #6288b4 10%, #6786a9 100%);
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 5px 4px 8px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, #5aa9f2 0%, #0e58df 10%, #0449d0 100%);
+  cursor: move;
+}
+
+.titlebarIcon {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  flex-shrink: 0;
+}
+
+.titlebarTitle {
+  flex: 1;
+  min-width: 0;
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
+}
+
+.windowControls {
+  display: flex;
+  gap: 3px;
+}
+
+.windowButton {
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+  background: linear-gradient(180deg, #9be7ff 0%, #4f8dbd 100%);
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.windowButton:hover {
+  filter: brightness(1.08);
+}
+
+.minimizeButton {
+  background: linear-gradient(180deg, #8cb1ff 0%, #4b62b8 100%);
+}
+
+.closeButton {
+  background: linear-gradient(180deg, #ff9b7e 0%, #cf431c 100%);
+}
+
+.menubar {
+  display: flex;
+  gap: 10px;
+  padding: 4px 8px;
+  border-bottom: 1px solid #b5b3a8;
+  background: #ece9d8;
+  font-size: 11px;
+}
+
+.addressBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #b5b3a8;
+  background: #ece9d8;
+}
+
+.addressLabel {
+  color: #4d4d4d;
+  font-size: 11px;
+}
+
+.addressInput {
+  width: 100%;
+  border: 2px inset #b5b3a8;
+  padding: 2px 6px;
+  background: #fff;
+  font-size: 11px;
+}
+
+.windowBody {
+  flex: 1;
+  overflow: auto;
+  padding: 18px;
+  background: #fff;
+}
+
+.aboutLayout {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  padding: 0;
+}
+
+.sidebar {
+  background: #e3dece;
+  border-right: 1px solid #b2ada0;
+  padding: 10px 0;
+}
+
+.sidebarSection {
+  padding: 8px 12px 6px;
+  margin-bottom: 4px;
+  background: linear-gradient(180deg, #4d90d6, #205ea9);
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.sidebarLink {
+  width: 100%;
+  padding: 6px 14px;
+  border: 0;
+  background: transparent;
+  color: #0c3798;
+  text-align: left;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.sidebarLink:hover {
+  background: #d0e3fa;
+  color: #000;
+}
+
+.contentPane {
+  padding: 18px;
+}
+
+.sectionTitle {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #8ba4cb;
+  color: #0a358f;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.aboutHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.profileBadge {
+  width: 82px;
+  height: 82px;
+  border: 3px solid #0e55d8;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #50adff, #1b5c9a);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.aboutCopy h3,
+.skillGroup h3 {
+  margin-bottom: 8px;
+  color: #133b82;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.aboutCopy p,
+.windowBody p {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #202020;
+}
+
+.dataTable {
+  margin-top: 18px;
+  border: 1px solid #acaa9d;
+}
+
+.dataRow {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  border-bottom: 1px solid #d0cbc0;
+  font-size: 11px;
+}
+
+.dataRow:last-child {
+  border-bottom: 0;
+}
+
+.dataRow:nth-child(odd) {
+  background: #ece9d8;
+}
+
+.dataRow span {
+  padding: 7px 12px;
+}
+
+.dataKey {
+  font-weight: 700;
+}
+
+.statusText {
+  color: #0c7a28;
+  font-weight: 700;
+}
+
+.statsRow {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.statBox {
+  border: 1px solid #a9c7ea;
+  background: linear-gradient(180deg, #eef6ff 0%, #dce9ff 100%);
+  padding: 12px;
+}
+
+.statBox strong {
+  display: block;
+  color: #0a358f;
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.statBox span {
+  font-size: 11px;
+}
+
+.skillGroup {
+  margin-bottom: 18px;
+}
+
+.skillRow {
+  display: grid;
+  grid-template-columns: 135px minmax(0, 1fr) 52px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.skillName,
+.skillValue {
+  font-size: 11px;
+  color: #343434;
+}
+
+.skillValue {
+  text-align: right;
+}
+
+.skillTrack {
+  height: 18px;
+  border: 1px solid #9c9c9c;
+  background: #e0e0e0;
+}
+
+.skillFill {
+  height: 100%;
+  background: linear-gradient(180deg, #5ab7ff 0%, #2369b7 100%);
+}
+
+.tagCloud,
+.projectTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  padding: 4px 8px;
+  border: 1px solid #9ab7dc;
+  background: #dcecff;
+  color: #0a3b92;
+  font-size: 11px;
+}
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.projectCard {
+  padding: 12px;
+  border: 1px solid #afaea5;
+  background: #faf9f3;
+  text-align: left;
+  cursor: pointer;
+}
+
+.projectCard:hover {
+  background: #e5f0ff;
+  border-color: #4f82d7;
+}
+
+.projectCardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  color: #0a358f;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.projectCardBadge {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.projectSubtitle {
+  color: #5c5c5c;
+  margin-bottom: 8px;
+}
+
+.helperNote,
+.contactLead {
+  margin-bottom: 14px;
+  color: #565656;
+}
+
+.formRow {
+  margin-bottom: 12px;
+}
+
+.formRow label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.formRow input,
+.formRow textarea {
+  width: 100%;
+  border: 2px inset #a9a9a9;
+  padding: 6px 8px;
+  background: #fff;
+  font-size: 11px;
+}
+
+.formRow textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.formActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.xpButton {
+  padding: 6px 14px;
+  border: 2px outset #d4d0c8;
+  background: linear-gradient(180deg, #f6f6f0 0%, #d8d4ca 100%);
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.xpButton:active {
+  border-style: inset;
+}
+
+.primaryButton {
+  background: linear-gradient(180deg, #64bfff 0%, #1f73da 100%);
+  color: #fff;
+  border-color: #1f56b3;
+}
+
+.contactMeta {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #d2d2d2;
+}
+
+.messageBox {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: min(340px, calc(100vw - 24px));
+  transform: translate(-50%, -50%);
+  border: 2px solid #0e55d8;
+  border-radius: 8px 8px 5px 5px;
+  background: #ece9d8;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+.messageTitlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 5px 4px 8px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, #5aa9f2 0%, #0e58df 10%, #0449d0 100%);
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.messageTitlebar span {
+  flex: 1;
+}
+
+.messageBody {
+  padding: 18px;
+  text-align: center;
+}
+
+.messageIcon {
+  width: 72px;
+  height: 42px;
+  margin: 0 auto 12px;
+  border: 2px solid #0e55d8;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #eef6ff 0%, #cfdfff 100%);
+  color: #11367f;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.warningIcon {
+  color: #8b3b00;
+  border-color: #cc6b00;
+  background: linear-gradient(180deg, #fff0ce 0%, #ffd28e 100%);
+}
+
+.infoIcon {
+  color: #0c4f93;
+}
+
+.messageActions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.startMenu {
+  position: absolute;
+  left: 8px;
+  bottom: 44px;
+  width: min(280px, calc(100vw - 16px));
+  border: 2px solid #0e55d8;
+  border-radius: 8px 8px 5px 5px;
+  background: #f2efe3;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+  z-index: 2500;
+}
+
+.startMenuHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 14px 12px;
+  background: linear-gradient(180deg, #67be5d 0%, #2f8f2f 100%);
+  color: #fff;
+}
+
+.startMenuHeader strong {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.startMenuHeader span {
+  font-size: 11px;
+}
+
+.startMenuItem {
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  border-bottom: 1px solid #d7d3c8;
+  background: transparent;
+  text-align: left;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.startMenuItem:last-child {
+  border-bottom: 0;
+}
+
+.startMenuItem:hover {
+  background: #dcebff;
+}
+
+.taskbar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 38px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  background: linear-gradient(180deg, #2861d9 0%, #1d4fb9 45%, #1841a1 100%);
+  border-top: 1px solid #7dbfff;
+  z-index: 2000;
+}
+
+.startButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  height: 100%;
+  padding: 0 16px 0 12px;
+  border-top: 0;
+  border-right: 1px solid #145710;
+  border-bottom: 0;
+  border-left: 0;
+  border-radius: 0 10px 10px 0;
+  background: linear-gradient(180deg, #64bf56 0%, #3f952f 45%, #327f24 100%);
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 700;
+  cursor: pointer;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset -1px -1px 0 rgba(17, 74, 12, 0.45);
+}
+
+.startLogo {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  background: url("/icons/xp-windows-logo.png") center center / contain no-repeat;
+}
+
+.quickLaunch {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  flex-shrink: 0;
+  padding: 0 6px 0 7px;
+}
+
+.quickLaunchGrip {
+  width: 9px;
+  height: 22px;
+  margin-right: 3px;
+  flex-shrink: 0;
+  background:
+    radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.72) 0 1px, transparent 1.2px)
+      0 0 / 4px 4px repeat,
+    radial-gradient(circle at 2px 2px, rgba(11, 58, 147, 0.95) 0 1px, transparent 1.2px)
+      1px 1px / 4px 4px repeat;
+  opacity: 0.92;
+}
+
+.quickLaunchButton {
+  width: 24px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.quickLaunchButton:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.28),
+    inset -1px -1px 0 rgba(12, 47, 118, 0.35);
+}
+
+.quickLaunchButton:active {
+  border-color: rgba(8, 36, 94, 0.84);
+  background: rgba(12, 61, 150, 0.42);
+  box-shadow:
+    inset 1px 1px 1px rgba(0, 0, 0, 0.34),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.quickLaunchIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+.quickLaunchDivider {
+  width: 2px;
+  height: 24px;
+  margin-left: 4px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.75) 0 50%,
+    rgba(10, 53, 132, 0.92) 50% 100%
+  );
+  opacity: 0.9;
+}
+
+.taskbarButtons {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow: hidden;
+  padding: 0 4px;
+}
+
+.taskButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 120px;
+  max-width: 180px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid #103e9c;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #3474da 0%, #245bb8 100%);
+  color: #fff;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskButtonActive {
+  background: linear-gradient(180deg, #1e4bad 0%, #173d91 100%);
+}
+
+.taskButtonDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.systemTray {
+  width: 148px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 10px 0 12px;
+  border-left: 1px solid #0d3d9a;
+  background: linear-gradient(
+    rgb(12, 89, 185) 1%,
+    rgb(19, 158, 233) 6%,
+    rgb(24, 181, 242) 10%,
+    rgb(19, 155, 235) 14%,
+    rgb(18, 144, 232) 19%,
+    rgb(13, 141, 234) 63%,
+    rgb(13, 159, 241) 81%,
+    rgb(15, 158, 237) 88%,
+    rgb(17, 155, 233) 91%,
+    rgb(19, 146, 226) 94%,
+    rgb(19, 126, 215) 97%,
+    rgb(9, 91, 201) 100%
+  );
+  box-shadow: rgb(24 187 255) 1px 0 1px inset;
+}
+
+.trayIcons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 62px;
+}
+
+.trayIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  image-rendering: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.clock {
+  color: #f5f9ff;
+  flex-shrink: 0;
+  text-align: right;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 900px) {
+  .iconRail {
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: calc(100% - 32px);
+  }
+
+  .aboutLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #b2ada0;
+  }
+
+  .projectGrid,
+  .statsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .quickLaunch {
+    padding: 0 4px 0 5px;
+  }
+
+  .quickLaunchButton:last-of-type {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .windowBody,
+  .contentPane {
+    padding: 14px;
+  }
+
+  .taskButton {
+    min-width: 100px;
+    font-size: 10px;
+  }
+
+  .skillRow {
+    grid-template-columns: 1fr;
+  }
+
+  .skillValue {
+    text-align: left;
+  }
+
+  .dataRow {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutHeader {
+    flex-direction: column;
+  }
+
+  .quickLaunch {
+    display: none;
+  }
+}

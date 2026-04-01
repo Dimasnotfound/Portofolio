@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alex Reza — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Tahoma';
+    src: local('Tahoma'), local('tahoma');
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: 'Tahoma';
+    src: local('Tahoma Bold'), local('Tahoma-Bold'), local('tahoma bold');
+    font-weight: 700;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    width:100%;height:100%;overflow:hidden;
+    font-family:'Tahoma','MS Sans Serif','Microsoft Sans Serif','Arial',sans-serif;
+    font-size:11px;
+    -webkit-font-smoothing:none;
+    -moz-osx-font-smoothing:unset;
+    font-smooth:never;
+    text-rendering:optimizeSpeed;
+  }
+
+  /* DESKTOP */
+  #desktop{
+    width:100%;height:100%;
+    background: linear-gradient(180deg,#1a6cb5 0%,#3a9ad9 40%,#7ec8e3 100%);
+    position:relative;overflow:hidden;
+    cursor:default;user-select:none;
+  }
+  .wallpaper{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 70%, #e8a020 0%, #f5c842 18%, #dbb040 30%, transparent 55%),
+      radial-gradient(ellipse 100% 50% at 50% 100%, #5a3800 0%, #8b5e1a 20%, transparent 50%),
+      linear-gradient(180deg,#5ab4d6 0%,#87ceeb 35%,#b0d8ea 55%,#c8a050 60%,#8b6914 75%,#6b4f10 100%);
+  }
+  /* grain */
+  .wallpaper::after{
+    content:'';position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity:.3;pointer-events:none;
+  }
+
+  /* DESKTOP ICONS */
+  .icon-grid{
+    position:absolute;top:14px;left:14px;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .desk-icon{
+    display:flex;flex-direction:column;align-items:center;
+    gap:2px;cursor:pointer;padding:4px;border-radius:2px;
+    width:72px;text-align:center;
+  }
+  .desk-icon:hover{background:rgba(255,255,255,.2)}
+  .desk-icon.active{background:rgba(49,106,197,.6);outline:1px dotted #fff}
+  .desk-icon img,.desk-icon .ico{
+    width:32px;height:32px;object-fit:contain;
+  }
+  .ico-folder{
+    width:32px;height:32px;position:relative;
+  }
+  .ico-folder::before{
+    content:'';position:absolute;top:6px;left:0;
+    width:14px;height:8px;background:#f0c040;border-radius:2px 4px 0 0;
+  }
+  .ico-folder::after{
+    content:'';position:absolute;top:12px;left:0;
+    width:32px;height:18px;background:#f0c040;border-radius:0 2px 2px 2px;
+  }
+  .ico-txt{
+    width:26px;height:32px;background:#fff;border:1.5px solid #888;position:relative;
+    font-size:7px;color:#444;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;
+  }
+  .ico-txt::after{
+    content:'';position:absolute;top:-1px;right:-1px;
+    width:8px;height:8px;background:#888;
+    clip-path:polygon(0 0,100% 100%,100% 0);
+  }
+  .ico-me{
+    width:32px;height:32px;border-radius:50%;
+    background:linear-gradient(135deg,#4a90d9,#2060b0);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;color:#fff;
+    border:2px solid rgba(255,255,255,.5);
+  }
+  .desk-icon span{
+    color:#fff;font-size:9px;line-height:1.4;
+    font-family:'Press Start 2P','Tahoma',sans-serif;
+    text-shadow:1px 1px 3px rgba(0,0,0,.9),0 0 6px rgba(0,0,0,.7);
+    word-break:break-word;
+  }
+
+  /* TASKBAR */
+  #taskbar{
+    position:absolute;bottom:0;left:0;right:0;height:30px;
+    background:linear-gradient(180deg,#245edc 0%,#1a4eb5 45%,#1944a8 50%,#2253c8 100%);
+    display:flex;align-items:center;border-top:1.5px solid #5ba3e8;
+    z-index:1000;
+  }
+  #start-btn{
+    height:26px;padding:0 10px 0 8px;margin:2px 4px;
+    background:linear-gradient(180deg,#5eb44e 0%,#3d9432 45%,#348028 50%,#3d9432 100%);
+    border:1.5px solid #1a6010;border-radius:10px;
+    color:#fff;font-weight:700;font-size:11px;font-family:'Press Start 2P','Tahoma',sans-serif;
+    cursor:pointer;display:flex;align-items:center;gap:5px;
+    text-shadow:0 1px 1px rgba(0,0,0,.4);
+    box-shadow:0 1px 0 rgba(255,255,255,.3) inset;
+  }
+  #start-btn:hover{background:linear-gradient(180deg,#6ec45e 0%,#4aaa3e 45%,#3e9030 50%,#4aaa3e 100%)}
+  .start-logo{width:16px;height:16px;display:flex;flex-wrap:wrap;gap:1.5px;flex-shrink:0}
+  .start-logo span{width:6.5px;height:6.5px;border-radius:.5px}
+  .start-logo span:nth-child(1){background:#f25022}
+  .start-logo span:nth-child(2){background:#7fba00}
+  .start-logo span:nth-child(3){background:#00a4ef}
+  .start-logo span:nth-child(4){background:#ffb900}
+
+  .taskbar-tasks{flex:1;display:flex;gap:2px;padding:0 4px;overflow:hidden}
+  .task-btn{
+    height:22px;padding:0 8px;min-width:120px;max-width:160px;
+    background:linear-gradient(180deg,#2e6fd4 0%,#1e56b8 100%);
+    border:1px solid #1040a0;border-radius:2px;
+    color:#fff;font-size:10px;font-family:'Tahoma','MS Sans Serif',sans-serif;
+    cursor:pointer;text-align:left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+    display:flex;align-items:center;gap:4px;
+  }
+  .task-btn.active{background:linear-gradient(180deg,#1a4eb5 0%,#2458c8 100%);border-color:#3070e0}
+  .task-btn:hover{background:linear-gradient(180deg,#3a7ee4 0%,#2a66c8 100%)}
+  .task-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+  .systray{
+    display:flex;align-items:center;gap:6px;padding:0 8px;
+    background:linear-gradient(180deg,#1044b8 0%,#1a54cc 100%);
+    border-left:1px solid #3060d0;height:100%;
+    font-size:10px;color:#aad4ff;
+  }
+  #clock{font-size:9px;color:#ddeeff;text-align:center;line-height:1.5;cursor:default;
+    font-family:'Press Start 2P','Tahoma',sans-serif;}
+
+  /* WINDOW */
+  .win{
+    position:absolute;
+    background:#f0f0ec;
+    border:2px solid #0054e3;
+    border-top-color:#0054e3;
+    border-radius:6px 6px 4px 4px;
+    box-shadow:2px 2px 8px rgba(0,0,0,.5);
+    min-width:420px;
+    display:flex;flex-direction:column;
+    z-index:10;
+  }
+  .win.hidden{display:none!important}
+  .win.minimized{display:none}
+
+  /* TITLE BAR */
+  .titlebar{
+    background:linear-gradient(180deg,#4d9de8 0%,#0054e3 6%,#0048d8 90%,#006ae8 100%);
+    border-radius:4px 4px 0 0;
+    padding:3px 4px 3px 6px;
+    display:flex;align-items:center;gap:6px;
+    cursor:move;
+  }
+  .win.inactive .titlebar{
+    background:linear-gradient(180deg,#9ab4d6 0%,#7090b8 6%,#6080a8 90%,#7090b8 100%);
+  }
+  .titlebar-icon{width:14px;height:14px;border-radius:50%;
+    background:linear-gradient(135deg,#6af,#048);flex-shrink:0}
+  .titlebar-title{flex:1;color:#fff;font-weight:700;font-size:10px;
+    font-family:'Press Start 2P','Tahoma',sans-serif;letter-spacing:.01em;
+    text-shadow:1px 1px 2px rgba(0,0,0,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .win-btns{display:flex;gap:2px;flex-shrink:0}
+  .win-btn{
+    width:21px;height:21px;border-radius:3px;
+    border:1px solid rgba(0,0,0,.3);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;
+    font-weight:700;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.4);
+    background:linear-gradient(180deg,#5cc 0%,#399 100%);
+  }
+  .win-btn.close{background:linear-gradient(180deg,#f84 0%,#c40 100%)}
+  .win-btn.min{background:linear-gradient(180deg,#88c 0%,#448 100%)}
+  .win-btn:hover{filter:brightness(1.2)}
+  .win-btn:active{filter:brightness(.9)}
+
+  /* MENU BAR */
+  .menubar{
+    background:#ece9d8;border-bottom:1px solid #aaa;
+    padding:2px 4px;display:flex;gap:2px;
+  }
+  .menu-item{
+    padding:2px 8px;border-radius:2px;cursor:pointer;font-size:11px;color:#000;
+  }
+  .menu-item:hover{background:#316ac5;color:#fff}
+
+  /* ADDRESS BAR */
+  .addrbar{
+    background:#ece9d8;border-bottom:1px solid #aaa;
+    padding:3px 6px;display:flex;align-items:center;gap:6px;font-size:11px;
+  }
+  .addr-label{color:#444;white-space:nowrap}
+  .addr-box{
+    flex:1;background:#fff;border:1.5px solid #7f9db9;
+    padding:1px 4px;font-size:11px;font-family:Tahoma,sans-serif;
+    border-radius:0;outline:none;
+  }
+
+  /* CONTENT AREA */
+  .win-body{
+    flex:1;overflow:auto;
+    background:#fff;
+    padding:16px 20px;
+    border-radius:0 0 4px 4px;
+  }
+
+  /* SECTION NAV (explorer sidebar style) */
+  .explorer-layout{display:flex;height:100%}
+  .sidebar{
+    width:160px;flex-shrink:0;background:#e8e4d8;
+    border-right:1px solid #aaa;padding:8px 0;
+    display:flex;flex-direction:column;gap:0;
+  }
+  .sidebar-section{
+    background:linear-gradient(180deg,#4d8dd4 0%,#2464b8 100%);
+    color:#fff;font-weight:700;font-size:8px;
+    font-family:'Press Start 2P','Tahoma',sans-serif;
+    padding:5px 10px 4px;border-bottom:1px solid #1a50a0;
+    margin-bottom:2px;line-height:1.6;
+  }
+  .sidebar-link{
+    padding:3px 14px;font-size:11px;color:#00008b;
+    cursor:pointer;display:block;text-decoration:none;
+  }
+  .sidebar-link:hover{background:#c8ddf5;color:#000}
+  .main-content{flex:1;overflow:auto;padding:16px}
+
+  /* CONTENT STYLES */
+  h2{font-size:11px;font-weight:700;color:#003399;border-bottom:1px solid #99aacc;
+     font-family:'Press Start 2P','Tahoma',sans-serif;letter-spacing:.02em;
+     padding-bottom:6px;margin-bottom:12px;line-height:1.6}
+  h3{font-size:9px;font-weight:700;color:#003366;margin:12px 0 8px;
+     font-family:'Press Start 2P','Tahoma',sans-serif;line-height:1.6;}
+  p{font-size:11px;line-height:1.7;color:#222;margin-bottom:8px}
+  .tag{
+    display:inline-block;background:#ddeeff;color:#003399;
+    border:1px solid #99bbee;border-radius:2px;
+    font-size:10px;padding:1px 6px;margin:2px;
+  }
+
+  /* SKILL BARS */
+  .skill-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .skill-name{width:90px;font-size:11px;color:#333;flex-shrink:0}
+  .skill-track{flex:1;height:14px;background:#e0e0e0;border:1px solid #aaa;border-radius:0}
+  .skill-fill{height:100%;background:linear-gradient(180deg,#5b9bd5 0%,#2e75b6 100%)}
+  .skill-pct{width:30px;font-size:10px;color:#333;text-align:right;flex-shrink:0}
+
+  /* PROJECT CARDS (XP icon style) */
+  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .proj-card{
+    border:1px solid #aaa;background:#fafaf7;padding:10px;
+    cursor:pointer;border-radius:2px;
+    transition:background .15s,border-color .15s;
+  }
+  .proj-card:hover{background:#ddeeff;border-color:#5588dd}
+  .proj-card-title{font-weight:700;font-size:9px;color:#003399;margin-bottom:6px;
+    font-family:'Press Start 2P','Tahoma',sans-serif;line-height:1.6;
+    display:flex;align-items:center;gap:6px}
+  .proj-card-title .pico{
+    width:16px;height:16px;background:linear-gradient(135deg,#5ab,#025);
+    border-radius:2px;flex-shrink:0;
+  }
+  .proj-card p{font-size:10px;color:#444;margin-bottom:6px}
+
+  /* CONTACT FORM */
+  .contact-row{margin-bottom:10px}
+  .contact-row label{display:block;font-size:11px;font-weight:700;color:#333;margin-bottom:2px}
+  .contact-row input,.contact-row textarea{
+    width:100%;border:2px inset #aaa;padding:3px 5px;
+    font-family:'Tahoma','MS Sans Serif',sans-serif;font-size:11px;background:#fff;outline:none;
+  }
+  .contact-row textarea{height:70px;resize:vertical}
+  .xp-btn{
+    background:linear-gradient(180deg,#f0f0e8 0%,#d4d0c8 100%);
+    border:2px outset #d4d0c8;border-radius:2px;
+    padding:4px 14px;font-family:'Tahoma','MS Sans Serif',sans-serif;font-size:11px;
+    cursor:pointer;color:#000;
+  }
+  .xp-btn:hover{background:linear-gradient(180deg,#d8e8f8 0%,#b8d0e8 100%);border-color:#0054e3}
+  .xp-btn:active{border-style:inset}
+  .xp-btn.primary{background:linear-gradient(180deg,#5cb8f0 0%,#1a72d8 100%);color:#fff;border-color:#0040c0}
+
+  /* ERROR / INFO BOX */
+  .msgbox{
+    position:absolute;z-index:2000;
+    background:#ece9d8;border:2px solid #0054e3;border-radius:6px 6px 4px 4px;
+    box-shadow:3px 3px 10px rgba(0,0,0,.5);
+    width:280px;
+  }
+  .msgbox-title{
+    background:linear-gradient(180deg,#4d9de8 0%,#0054e3 6%,#0048d8 90%,#006ae8 100%);
+    border-radius:4px 4px 0 0;padding:4px 6px;
+    display:flex;align-items:center;gap:5px;
+  }
+  .msgbox-title span{flex:1;color:#fff;font-weight:700;font-size:11px;text-shadow:1px 1px 2px rgba(0,0,0,.5)}
+  .msgbox-body{padding:16px;text-align:center}
+  .msgbox-icon{font-size:28px;margin-bottom:8px}
+  .msgbox-text{font-size:11px;color:#222;margin-bottom:14px;line-height:1.6}
+  .msgbox-btns{display:flex;justify-content:center;gap:8px}
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar{width:16px;height:16px}
+  ::-webkit-scrollbar-track{background:#e0dcd0;border:1px solid #b0a890}
+  ::-webkit-scrollbar-thumb{
+    background:linear-gradient(90deg,#d4d0c8,#c0bbb0);
+    border:2px solid #b0a890;
+  }
+  ::-webkit-scrollbar-button{
+    background:linear-gradient(180deg,#d4d0c8,#b8b4a8);
+    display:block;height:16px;border:1px solid #aaa;
+  }
+</style>
+</head>
+<body>
+<div id="desktop">
+  <div class="wallpaper"></div>
+
+  <!-- DESKTOP ICONS -->
+  <div class="icon-grid">
+    <div class="desk-icon" ondblclick="openWin('about-win','About Me')">
+      <div class="ico-me">AR</div>
+      <span>About Me</span>
+    </div>
+    <div class="desk-icon" ondblclick="openWin('skills-win','Skills')">
+      <div class="ico-folder"></div>
+      <span>My Skills</span>
+    </div>
+    <div class="desk-icon" ondblclick="openWin('projects-win','Projects')">
+      <div class="ico-folder"></div>
+      <span>Projects</span>
+    </div>
+    <div class="desk-icon" ondblclick="openWin('contact-win','Contact')">
+      <div class="ico-txt">✉</div>
+      <span>Contact</span>
+    </div>
+  </div>
+
+  <!-- ==================== ABOUT WINDOW ==================== -->
+  <div class="win" id="about-win" style="width:520px;top:60px;left:100px">
+    <div class="titlebar" onmousedown="dragStart(event,'about-win')">
+      <div class="titlebar-icon"></div>
+      <div class="titlebar-title">About Me — Alex Reza</div>
+      <div class="win-btns">
+        <div class="win-btn min" onclick="minimizeWin('about-win','About Me')">_</div>
+        <div class="win-btn" onclick="maximizeWin('about-win')">□</div>
+        <div class="win-btn close" onclick="closeWin('about-win')">✕</div>
+      </div>
+    </div>
+    <div class="menubar">
+      <div class="menu-item">File</div>
+      <div class="menu-item">View</div>
+      <div class="menu-item">Help</div>
+    </div>
+    <div class="addrbar">
+      <span class="addr-label">Address</span>
+      <input class="addr-box" value="C:\Portfolio\About\" readonly/>
+    </div>
+    <div class="win-body explorer-layout">
+      <div class="sidebar">
+        <div class="sidebar-section">Details</div>
+        <a class="sidebar-link" ondblclick="openWin('skills-win','Skills')">My Skills</a>
+        <a class="sidebar-link" ondblclick="openWin('projects-win','Projects')">Projects</a>
+        <a class="sidebar-link" ondblclick="openWin('contact-win','Contact')">Contact</a>
+      </div>
+      <div class="main-content">
+        <h2>👤 Tentang Saya</h2>
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#4a90d9,#1a50a0);
+               display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff;
+               border:3px solid #0054e3;flex-shrink:0">AR</div>
+          <div>
+            <h3 style="margin-top:0">Alex Reza</h3>
+            <p><b>Full-Stack Developer</b> berbasis di Jakarta, Indonesia.</p>
+            <p>Saya membangun aplikasi web dan mobile yang cepat, bersih, dan berorientasi pada pengguna. Dengan 3+ tahun pengalaman, saya telah mengerjakan 20+ proyek dan bekerja sama dengan 12+ klien.</p>
+          </div>
+        </div>
+        <div style="margin-top:14px;border:1px solid #aaa;border-radius:2px;overflow:hidden">
+          <table style="width:100%;border-collapse:collapse;font-size:11px">
+            <tr style="background:#ece9d8"><td style="padding:4px 10px;border-bottom:1px solid #ccc;font-weight:700;width:100px">Nama</td><td style="padding:4px 10px;border-bottom:1px solid #ccc">Alex Reza</td></tr>
+            <tr><td style="padding:4px 10px;border-bottom:1px solid #ccc;font-weight:700">Lokasi</td><td style="padding:4px 10px;border-bottom:1px solid #ccc">Jakarta, Indonesia</td></tr>
+            <tr style="background:#ece9d8"><td style="padding:4px 10px;border-bottom:1px solid #ccc;font-weight:700">Status</td><td style="padding:4px 10px;border-bottom:1px solid #ccc;color:#006400;font-weight:700">✔ Open to Work</td></tr>
+            <tr><td style="padding:4px 10px;border-bottom:1px solid #ccc;font-weight:700">Pendidikan</td><td style="padding:4px 10px;border-bottom:1px solid #ccc">S1 Teknik Informatika</td></tr>
+            <tr style="background:#ece9d8"><td style="padding:4px 10px;font-weight:700">Email</td><td style="padding:4px 10px;color:#0000cd">alex@email.com</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SKILLS WINDOW ==================== -->
+  <div class="win hidden" id="skills-win" style="width:480px;top:80px;left:160px">
+    <div class="titlebar" onmousedown="dragStart(event,'skills-win')">
+      <div class="titlebar-icon"></div>
+      <div class="titlebar-title">My Skills — Alex Reza</div>
+      <div class="win-btns">
+        <div class="win-btn min" onclick="minimizeWin('skills-win','Skills')">_</div>
+        <div class="win-btn" onclick="maximizeWin('skills-win')">□</div>
+        <div class="win-btn close" onclick="closeWin('skills-win')">✕</div>
+      </div>
+    </div>
+    <div class="menubar">
+      <div class="menu-item">File</div>
+      <div class="menu-item">View</div>
+      <div class="menu-item">Help</div>
+    </div>
+    <div class="addrbar">
+      <span class="addr-label">Address</span>
+      <input class="addr-box" value="C:\Portfolio\Skills\" readonly/>
+    </div>
+    <div class="win-body">
+      <h2>🛠️ Keahlian Teknis</h2>
+      <h3>Frontend</h3>
+      <div class="skill-bar-row"><span class="skill-name">React / Next.js</span><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div><span class="skill-pct">90%</span></div>
+      <div class="skill-bar-row"><span class="skill-name">TypeScript</span><div class="skill-track"><div class="skill-fill" style="width:85%"></div></div><span class="skill-pct">85%</span></div>
+      <div class="skill-bar-row"><span class="skill-name">HTML / CSS</span><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div><span class="skill-pct">95%</span></div>
+      <div class="skill-bar-row"><span class="skill-name">Tailwind CSS</span><div class="skill-track"><div class="skill-fill" style="width:88%"></div></div><span class="skill-pct">88%</span></div>
+      <h3>Backend</h3>
+      <div class="skill-bar-row"><span class="skill-name">Node.js</span><div class="skill-track"><div class="skill-fill" style="width:82%"></div></div><span class="skill-pct">82%</span></div>
+      <div class="skill-bar-row"><span class="skill-name">Python</span><div class="skill-track"><div class="skill-fill" style="width:75%"></div></div><span class="skill-pct">75%</span></div>
+      <div class="skill-bar-row"><span class="skill-name">PostgreSQL</span><div class="skill-track"><div class="skill-fill" style="width:78%"></div></div><span class="skill-pct">78%</span></div>
+      <div class="skill-bar-row"><span class="skill-name">REST API</span><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div><span class="skill-pct">90%</span></div>
+      <h3>Mobile & Tools</h3>
+      <div class="skill-bar-row"><span class="skill-name">React Native</span><div class="skill-track"><div class="skill-fill" style="width:70%"></div></div><span class="skill-pct">70%</span></div>
+      <div class="skill-bar-row"><span class="skill-name">Docker</span><div class="skill-track"><div class="skill-fill" style="width:65%"></div></div><span class="skill-pct">65%</span></div>
+      <div class="skill-bar-row"><span class="skill-name">Git / GitHub</span><div class="skill-track"><div class="skill-fill" style="width:92%"></div></div><span class="skill-pct">92%</span></div>
+      <div style="margin-top:14px">
+        <span class="tag">JavaScript</span><span class="tag">React</span><span class="tag">Node.js</span>
+        <span class="tag">Python</span><span class="tag">Flutter</span><span class="tag">AWS</span>
+        <span class="tag">Figma</span><span class="tag">MongoDB</span><span class="tag">Supabase</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PROJECTS WINDOW ==================== -->
+  <div class="win hidden" id="projects-win" style="width:540px;top:100px;left:200px">
+    <div class="titlebar" onmousedown="dragStart(event,'projects-win')">
+      <div class="titlebar-icon"></div>
+      <div class="titlebar-title">Projects — Alex Reza</div>
+      <div class="win-btns">
+        <div class="win-btn min" onclick="minimizeWin('projects-win','Projects')">_</div>
+        <div class="win-btn" onclick="maximizeWin('projects-win')">□</div>
+        <div class="win-btn close" onclick="closeWin('projects-win')">✕</div>
+      </div>
+    </div>
+    <div class="menubar">
+      <div class="menu-item">File</div>
+      <div class="menu-item">View</div>
+      <div class="menu-item">Help</div>
+    </div>
+    <div class="addrbar">
+      <span class="addr-label">Address</span>
+      <input class="addr-box" value="C:\Portfolio\Projects\" readonly/>
+    </div>
+    <div class="win-body">
+      <h2>📁 Proyek Pilihan</h2>
+      <div class="proj-grid">
+        <div class="proj-card" ondblclick="showProjectDetail('StoreFront','Platform e-commerce full-stack dengan keranjang belanja real-time, payment gateway, dan dashboard admin.','Next.js, PostgreSQL, Stripe, Tailwind CSS')">
+          <div class="proj-card-title"><div class="pico"></div>StoreFront</div>
+          <p>E-Commerce Platform — Next.js & Stripe</p>
+          <div><span class="tag">Next.js</span><span class="tag">Stripe</span><span class="tag">PostgreSQL</span></div>
+        </div>
+        <div class="proj-card" ondblclick="showProjectDetail('TaskFlow','Aplikasi manajemen proyek dengan kanban board, kolaborasi real-time, dan laporan progres otomatis.','React, Node.js, Socket.io, MongoDB')">
+          <div class="proj-card-title"><div class="pico" style="background:linear-gradient(135deg,#f80,#840)"></div>TaskFlow</div>
+          <p>Project Management App — React & Socket.io</p>
+          <div><span class="tag">React</span><span class="tag">Socket.io</span><span class="tag">Node.js</span></div>
+        </div>
+        <div class="proj-card" ondblclick="showProjectDetail('FitTrack','Aplikasi mobile untuk tracking aktivitas fisik, kalori, dan tidur. Grafik progres & pengingat harian.','React Native, Firebase, Expo')">
+          <div class="proj-card-title"><div class="pico" style="background:linear-gradient(135deg,#4c8,#083)"></div>FitTrack</div>
+          <p>Mobile Health App — React Native</p>
+          <div><span class="tag">React Native</span><span class="tag">Firebase</span></div>
+        </div>
+        <div class="proj-card" ondblclick="showProjectDetail('OpenAPI Kit','Boilerplate REST API open-source dengan JWT, rate limiting, Swagger docs, dan test coverage 90%+.','Node.js, Express, Jest, Docker')">
+          <div class="proj-card-title"><div class="pico" style="background:linear-gradient(135deg,#a4f,#508)"></div>OpenAPI Kit</div>
+          <p>REST API Starter — Node.js & Docker</p>
+          <div><span class="tag">Node.js</span><span class="tag">Docker</span><span class="tag">Jest</span></div>
+        </div>
+      </div>
+      <p style="margin-top:10px;color:#666;font-style:italic">💡 Double-click pada proyek untuk melihat detail.</p>
+    </div>
+  </div>
+
+  <!-- ==================== CONTACT WINDOW ==================== -->
+  <div class="win hidden" id="contact-win" style="width:400px;top:120px;left:240px">
+    <div class="titlebar" onmousedown="dragStart(event,'contact-win')">
+      <div class="titlebar-icon"></div>
+      <div class="titlebar-title">Contact — Alex Reza</div>
+      <div class="win-btns">
+        <div class="win-btn min" onclick="minimizeWin('contact-win','Contact')">_</div>
+        <div class="win-btn" onclick="maximizeWin('contact-win')">□</div>
+        <div class="win-btn close" onclick="closeWin('contact-win')">✕</div>
+      </div>
+    </div>
+    <div class="menubar">
+      <div class="menu-item">File</div>
+      <div class="menu-item">View</div>
+      <div class="menu-item">Help</div>
+    </div>
+    <div class="addrbar">
+      <span class="addr-label">Address</span>
+      <input class="addr-box" value="C:\Portfolio\Contact\" readonly/>
+    </div>
+    <div class="win-body">
+      <h2>✉️ Hubungi Saya</h2>
+      <p style="margin-bottom:14px">Punya proyek atau pertanyaan? Kirim pesan di sini!</p>
+      <div class="contact-row">
+        <label>Nama:</label>
+        <input type="text" id="c-name" placeholder="Nama Anda"/>
+      </div>
+      <div class="contact-row">
+        <label>Email:</label>
+        <input type="email" id="c-email" placeholder="email@anda.com"/>
+      </div>
+      <div class="contact-row">
+        <label>Pesan:</label>
+        <textarea id="c-msg" placeholder="Ketik pesan Anda di sini..."></textarea>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="xp-btn primary" onclick="sendContact()">Kirim Pesan</button>
+        <button class="xp-btn" onclick="clearContact()">Bersihkan</button>
+      </div>
+      <div style="margin-top:14px;border-top:1px solid #ccc;padding-top:10px">
+        <p><b>Email:</b> alex@email.com</p>
+        <p><b>GitHub:</b> github.com/alexreza</p>
+        <p><b>LinkedIn:</b> linkedin.com/in/alexreza</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT DETAIL MSGBOX -->
+  <div class="msgbox hidden" id="proj-msgbox" style="left:50%;top:30%;transform:translate(-50%,-50%)">
+    <div class="msgbox-title">
+      <span id="pmsg-title">Project Detail</span>
+      <div class="win-btn close" style="width:16px;height:16px;font-size:9px" onclick="document.getElementById('proj-msgbox').classList.add('hidden')">✕</div>
+    </div>
+    <div class="msgbox-body">
+      <div class="msgbox-icon">📁</div>
+      <div class="msgbox-text" id="pmsg-body"></div>
+      <div style="margin-bottom:10px" id="pmsg-tags"></div>
+      <div class="msgbox-btns">
+        <button class="xp-btn" onclick="document.getElementById('proj-msgbox').classList.add('hidden')">OK</button>
+        <button class="xp-btn primary">View on GitHub</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEND SUCCESS MSGBOX -->
+  <div class="msgbox hidden" id="send-msgbox" style="left:50%;top:35%;transform:translate(-50%,-50%)">
+    <div class="msgbox-title">
+      <span>Information</span>
+      <div class="win-btn close" style="width:16px;height:16px;font-size:9px" onclick="document.getElementById('send-msgbox').classList.add('hidden')">✕</div>
+    </div>
+    <div class="msgbox-body">
+      <div class="msgbox-icon">✅</div>
+      <div class="msgbox-text">Pesan Anda telah terkirim!<br>Alex akan membalas secepatnya.</div>
+      <div class="msgbox-btns">
+        <button class="xp-btn primary" onclick="document.getElementById('send-msgbox').classList.add('hidden')">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASKBAR -->
+  <div id="taskbar">
+    <button id="start-btn" onclick="toggleStart()">
+      <div class="start-logo">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      Start
+    </button>
+    <div class="taskbar-tasks" id="taskbar-tasks"></div>
+    <div class="systray">
+      <div id="clock">12:00<br>PM</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const wins={};
+let zTop=10;
+let dragging=null,dragOffX=0,dragOffY=0;
+
+function openWin(id,label){
+  const el=document.getElementById(id);
+  el.classList.remove('hidden','minimized');
+  bringToFront(id);
+  addTask(id,label);
+}
+function closeWin(id){
+  document.getElementById(id).classList.add('hidden');
+  removeTask(id);
+}
+function minimizeWin(id,label){
+  document.getElementById(id).classList.add('minimized');
+  const btn=document.querySelector(`[data-win="${id}"]`);
+  if(btn)btn.classList.remove('active');
+}
+function maximizeWin(id){
+  const el=document.getElementById(id);
+  if(el.dataset.maxed==='1'){
+    el.style.cssText=el.dataset.prev||'';
+    el.dataset.maxed='0';
+  } else {
+    el.dataset.prev=el.style.cssText;
+    const tb=30;
+    el.style.left='0';el.style.top='0';
+    el.style.width=window.innerWidth+'px';
+    el.style.height=(window.innerHeight-tb)+'px';
+    el.dataset.maxed='1';
+  }
+}
+function bringToFront(id){
+  zTop++;
+  document.getElementById(id).style.zIndex=zTop;
+  document.querySelectorAll('.win').forEach(w=>{
+    w.classList.toggle('inactive',w.id!==id);
+  });
+  const btn=document.querySelector(`[data-win="${id}"]`);
+  if(btn){
+    document.querySelectorAll('.task-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
+
+// TASKBAR
+function addTask(id,label){
+  if(document.querySelector(`[data-win="${id}"]`))return;
+  const div=document.createElement('div');
+  div.className='task-btn';div.dataset.win=id;
+  const colors=['#5ab','#f80','#4c8','#a4f'];
+  const idx=['about-win','skills-win','projects-win','contact-win'].indexOf(id);
+  div.innerHTML=`<span style="width:8px;height:8px;border-radius:50%;background:${colors[idx]||'#888'};flex-shrink:0;display:inline-block"></span>${label}`;
+  div.onclick=()=>{
+    const el=document.getElementById(id);
+    if(el.classList.contains('minimized')){
+      el.classList.remove('minimized');bringToFront(id);
+    } else if(parseInt(el.style.zIndex)===zTop){
+      minimizeWin(id,label);
+    } else {
+      bringToFront(id);
+    }
+  };
+  document.getElementById('taskbar-tasks').appendChild(div);
+}
+function removeTask(id){
+  const btn=document.querySelector(`[data-win="${id}"]`);
+  if(btn)btn.remove();
+}
+
+// DRAG
+function dragStart(e,id){
+  if(e.target.closest('.win-btn'))return;
+  bringToFront(id);
+  dragging=id;
+  const el=document.getElementById(id);
+  dragOffX=e.clientX-el.offsetLeft;
+  dragOffY=e.clientY-el.offsetTop;
+  e.preventDefault();
+}
+document.addEventListener('mousemove',e=>{
+  if(!dragging)return;
+  const el=document.getElementById(dragging);
+  let x=e.clientX-dragOffX,y=e.clientY-dragOffY;
+  const maxX=window.innerWidth-60,maxY=window.innerHeight-60;
+  x=Math.max(-el.offsetWidth+60,Math.min(x,maxX));
+  y=Math.max(0,Math.min(y,maxY));
+  el.style.left=x+'px';el.style.top=y+'px';
+});
+document.addEventListener('mouseup',()=>{dragging=null});
+
+// CLOCK
+function updateClock(){
+  const now=new Date();
+  let h=now.getHours(),m=now.getMinutes();
+  const ampm=h>=12?'PM':'AM';
+  h=h%12||12;
+  document.getElementById('clock').innerHTML=`${h}:${String(m).padStart(2,'0')}<br>${ampm}`;
+}
+setInterval(updateClock,1000);updateClock();
+
+// PROJECT DETAIL
+function showProjectDetail(title,desc,tech){
+  document.getElementById('pmsg-title').textContent=title+' — Project Detail';
+  document.getElementById('pmsg-body').textContent=desc;
+  const tags=tech.split(',').map(t=>`<span class="tag">${t.trim()}</span>`).join('');
+  document.getElementById('pmsg-tags').innerHTML=tags;
+  document.getElementById('proj-msgbox').classList.remove('hidden');
+}
+
+// CONTACT
+function sendContact(){
+  const n=document.getElementById('c-name').value.trim();
+  const e=document.getElementById('c-email').value.trim();
+  const m=document.getElementById('c-msg').value.trim();
+  if(!n||!e||!m){alert('Harap isi semua field!');return;}
+  document.getElementById('send-msgbox').classList.remove('hidden');
+  clearContact();
+}
+function clearContact(){
+  document.getElementById('c-name').value='';
+  document.getElementById('c-email').value='';
+  document.getElementById('c-msg').value='';
+}
+
+// OPEN ABOUT ON LOAD
+window.onload=()=>openWin('about-win','About Me');
+</script>
+</body>
+</html>

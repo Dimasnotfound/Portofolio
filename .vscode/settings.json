@@ -1,0 +1,9 @@
+{
+    "terminal.integrated.profiles.windows": {
+        "laragon": {
+            "path": "${env:windir}\\System32\\cmd.exe",
+            "args": ["/k", "D:\\laragon\\bin\\cmder\\vendor\\bin\\vscode_init.cmd"]
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "laragon",
+}
