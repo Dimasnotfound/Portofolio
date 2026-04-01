@@ -126,6 +126,26 @@ const socialLinks = [
     icon: "/icons/social-github.png",
   },
 ] as const;
+const contactDetails = [
+  {
+    label: "Email",
+    value: "dp4369344@gmail.com",
+    href: "mailto:dp4369344@gmail.com",
+  },
+  {
+    label: "Phone",
+    value: "+62 812-4020-2654",
+    href: "https://wa.me/6281240202654",
+  },
+  {
+    label: "Location",
+    value: "Banyuwangi, Jawa Timur",
+  },
+  {
+    label: "Focus",
+    value: "Fullstack Development, Mobile Apps, AI Systems",
+  },
+] as const;
 
 const windowIds: WindowId[] = ["about", "skills", "projects", "contact"];
 const desktopIconIds: DesktopIconId[] = [
@@ -173,9 +193,9 @@ const windowLabels: Record<
     iconColor: "#55d29c",
   },
   contact: {
-    title: "Contact - Alex Reza",
+    title: "Contact - Dimas Juli Pratama",
     taskLabel: "Contact",
-    address: "C:\\Portfolio\\Contact\\",
+    address: "C:\\Portfolio\\Contact\\Dimas Juli Pratama\\",
     iconColor: "#ff7c66",
   },
 };
@@ -1055,7 +1075,7 @@ function WindowsPortfolio() {
     setDialog({
       title: "Pesan Terkirim",
       message:
-        "Pesan berhasil disimpan di UI demo ini. Alex bisa menindaklanjuti dari kontak yang Anda tinggalkan.",
+        "Pesan berhasil disimpan di UI demo ini. Dimas bisa menindaklanjuti melalui email atau kontak yang Anda tinggalkan.",
       tone: "info",
     });
     setContactForm({
@@ -1408,14 +1428,57 @@ function WindowsPortfolio() {
 
             {id === "contact" ? (
               <div className={styles.windowBody}>
-                <h2 className={styles.sectionTitle}>Hubungi Saya</h2>
+                <h2 className={styles.sectionTitle}>Contact</h2>
                 <p className={styles.contactLead}>
-                  Punya proyek baru, butuh partner build MVP, atau ingin audit
-                  front-end yang sudah ada?
+                  Terbuka untuk freelance, kolaborasi produk, pengembangan
+                  dashboard internal, mobile app, dan integrasi backend untuk
+                  kebutuhan nyata.
                 </p>
 
+                <div className={styles.contactPanel}>
+                  <div className={styles.contactCardGrid}>
+                    {contactDetails.map((item) => (
+                      <article key={item.label} className={styles.contactCard}>
+                        <span className={styles.contactCardLabel}>{item.label}</span>
+                        {item.href ? (
+                          <a
+                            href={item.href}
+                            target={item.href.startsWith("http") ? "_blank" : undefined}
+                            rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+                            className={styles.contactCardValue}
+                          >
+                            {item.value}
+                          </a>
+                        ) : (
+                          <span className={styles.contactCardValue}>{item.value}</span>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+
+                  <div className={styles.contactSocialRow}>
+                    {socialLinks.map((link) => (
+                      <a
+                        key={link.id}
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={styles.contactSocialLink}
+                      >
+                        <img
+                          src={link.icon}
+                          alt=""
+                          className={styles.contactSocialIcon}
+                          draggable="false"
+                        />
+                        <span>{link.label}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
                 <div className={styles.formRow}>
-                  <label htmlFor="contact-name">Nama</label>
+                  <label htmlFor="contact-name">Nama / Instansi</label>
                   <input
                     id="contact-name"
                     value={contactForm.name}
@@ -1425,7 +1488,7 @@ function WindowsPortfolio() {
                         name: event.target.value,
                       }))
                     }
-                    placeholder="Nama Anda"
+                    placeholder="Nama Anda atau nama perusahaan"
                   />
                 </div>
 
@@ -1446,7 +1509,7 @@ function WindowsPortfolio() {
                 </div>
 
                 <div className={styles.formRow}>
-                  <label htmlFor="contact-message">Pesan</label>
+                  <label htmlFor="contact-message">Project Brief</label>
                   <textarea
                     id="contact-message"
                     value={contactForm.message}
@@ -1456,7 +1519,7 @@ function WindowsPortfolio() {
                         message: event.target.value,
                       }))
                     }
-                    placeholder="Ketik pesan Anda di sini..."
+                    placeholder="Jelaskan kebutuhan proyek, stack, timeline, atau bentuk kolaborasi yang Anda cari."
                   />
                 </div>
 
@@ -1484,15 +1547,8 @@ function WindowsPortfolio() {
                 </div>
 
                 <div className={styles.contactMeta}>
-                  <p>
-                    <strong>Email:</strong> alex@email.com
-                  </p>
-                  <p>
-                    <strong>GitHub:</strong> github.com/alexreza
-                  </p>
-                  <p>
-                    <strong>LinkedIn:</strong> linkedin.com/in/alexreza
-                  </p>
+                  Respons tercepat biasanya lewat email atau LinkedIn. Untuk
+                  kebutuhan diskusi awal yang singkat, WhatsApp juga tersedia.
                 </div>
               </div>
             ) : null}

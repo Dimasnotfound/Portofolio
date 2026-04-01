@@ -573,6 +573,76 @@
   color: #565656;
 }
 
+.contactPanel {
+  margin-bottom: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.contactCardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.contactCard {
+  padding: 12px;
+  border: 1px solid #b9d0ec;
+  background: linear-gradient(180deg, #f8fbff 0%, #e7f0ff 100%);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.contactCardLabel {
+  display: block;
+  margin-bottom: 6px;
+  color: #4f6f95;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.contactCardValue {
+  color: #0b3d8f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+a.contactCardValue:hover {
+  text-decoration: underline;
+}
+
+.contactSocialRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contactSocialLink {
+  min-width: 180px;
+  padding: 9px 12px;
+  border: 1px solid #c9c4b6;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #173f8f;
+}
+
+.contactSocialLink:hover {
+  background: #eef6ff;
+  border-color: #7fa7d8;
+}
+
+.contactSocialIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .formRow {
   margin-bottom: 12px;
 }
@@ -626,6 +696,8 @@
   margin-top: 16px;
   padding-top: 12px;
   border-top: 1px solid #d2d2d2;
+  color: #565656;
+  line-height: 1.45;
 }
 
 .messageBox {
@@ -999,6 +1071,15 @@
 
   .aboutHeader {
     flex-direction: column;
+  }
+
+  .contactCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .contactSocialLink {
+    width: 100%;
+    min-width: 0;
   }
 
   .skillTileGrid {
