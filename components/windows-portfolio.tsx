@@ -126,26 +126,6 @@ const socialLinks = [
     icon: "/icons/social-github.png",
   },
 ] as const;
-const contactDetails = [
-  {
-    label: "Email",
-    value: "dp4369344@gmail.com",
-    href: "mailto:dp4369344@gmail.com",
-  },
-  {
-    label: "Phone",
-    value: "+62 812-4020-2654",
-    href: "https://wa.me/6281240202654",
-  },
-  {
-    label: "Location",
-    value: "Banyuwangi, Jawa Timur",
-  },
-  {
-    label: "Focus",
-    value: "Fullstack Development, Mobile Apps, AI Systems",
-  },
-] as const;
 
 const windowIds: WindowId[] = ["about", "skills", "projects", "contact"];
 const desktopIconIds: DesktopIconId[] = [
@@ -1434,48 +1414,6 @@ function WindowsPortfolio() {
                   dashboard internal, mobile app, dan integrasi backend untuk
                   kebutuhan nyata.
                 </p>
-
-                <div className={styles.contactPanel}>
-                  <div className={styles.contactCardGrid}>
-                    {contactDetails.map((item) => (
-                      <article key={item.label} className={styles.contactCard}>
-                        <span className={styles.contactCardLabel}>{item.label}</span>
-                        {item.href ? (
-                          <a
-                            href={item.href}
-                            target={item.href.startsWith("http") ? "_blank" : undefined}
-                            rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-                            className={styles.contactCardValue}
-                          >
-                            {item.value}
-                          </a>
-                        ) : (
-                          <span className={styles.contactCardValue}>{item.value}</span>
-                        )}
-                      </article>
-                    ))}
-                  </div>
-
-                  <div className={styles.contactSocialRow}>
-                    {socialLinks.map((link) => (
-                      <a
-                        key={link.id}
-                        href={link.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={styles.contactSocialLink}
-                      >
-                        <img
-                          src={link.icon}
-                          alt=""
-                          className={styles.contactSocialIcon}
-                          draggable="false"
-                        />
-                        <span>{link.label}</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
 
                 <div className={styles.formRow}>
                   <label htmlFor="contact-name">Nama / Instansi</label>
