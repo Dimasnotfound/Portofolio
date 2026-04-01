@@ -47,6 +47,18 @@ type Project = {
   accent: string;
 };
 
+type SkillItem = {
+  name: string;
+  icon: string;
+  note?: string;
+};
+
+type SkillCategory = {
+  group: string;
+  summary: string;
+  items: SkillItem[];
+};
+
 const TASKBAR_HEIGHT = 38;
 const WINDOW_MARGIN = 8;
 const MIN_WINDOW_WIDTH = 280;
@@ -149,9 +161,9 @@ const windowLabels: Record<
     iconColor: "#5ab6ff",
   },
   skills: {
-    title: "My Skills - Alex Reza",
+    title: "My Skills - Dimas Juli Pratama",
     taskLabel: "Skills",
-    address: "C:\\Portfolio\\Skills\\",
+    address: "C:\\Portfolio\\Skills\\Dimas Juli Pratama\\",
     iconColor: "#ffbf47",
   },
   projects: {
@@ -180,7 +192,7 @@ const initialWindows: Record<WindowId, WindowState> = {
     visible: false,
     minimized: false,
     maximized: false,
-    rect: { x: 162, y: 86, width: 520, height: 500 },
+    rect: { x: 176, y: 96, width: 840, height: 560 },
     zIndex: 16,
   },
   projects: {
@@ -199,46 +211,66 @@ const initialWindows: Record<WindowId, WindowState> = {
   },
 };
 
-const skills = [
+const skills: SkillCategory[] = [
+  {
+    group: "Languages",
+    summary:
+      "Bahasa utama yang saya pakai untuk fullstack web, automasi backend, dan pengembangan aplikasi mobile.",
+    items: [
+      { name: "JavaScript", icon: "/icons/skills/javascript.svg", note: "Web logic" },
+      { name: "TypeScript", icon: "/icons/skills/typescript.svg", note: "Typed apps" },
+      { name: "PHP", icon: "/icons/skills/php.svg", note: "Laravel stack" },
+      { name: "Python", icon: "/icons/skills/python.svg", note: "AI & scripting" },
+      { name: "Dart", icon: "/icons/skills/dart.svg", note: "Flutter apps" },
+      { name: "Golang", icon: "/icons/skills/go.svg", note: "Services & APIs" },
+    ],
+  },
   {
     group: "Frontend",
+    summary:
+      "Stack antarmuka yang saya gunakan untuk membangun web app responsif, dashboard, dan mobile interface.",
     items: [
-      { name: "Next.js / React", value: 90 },
-      { name: "TypeScript", value: 85 },
-      { name: "HTML / CSS", value: 95 },
-      { name: "Tailwind CSS", value: 88 },
+      { name: "React", icon: "/icons/skills/react.svg", note: "SPA & dashboards" },
+      { name: "Next.js", icon: "/icons/skills/nextjs.svg", note: "SSR / App Router" },
+      { name: "Flutter", icon: "/icons/skills/flutter.svg", note: "Cross-platform" },
+      { name: "Tailwind CSS", icon: "/icons/skills/tailwindcss.svg", note: "Utility styling" },
+      { name: "Bootstrap", icon: "/icons/skills/bootstrap.svg", note: "Rapid UI" },
     ],
   },
   {
     group: "Backend",
+    summary:
+      "Berpengalaman membangun REST API, service layer, integrasi sistem, dan pola MVC untuk kebutuhan production.",
     items: [
-      { name: "Node.js", value: 82 },
-      { name: "Python", value: 75 },
-      { name: "PostgreSQL", value: 78 },
-      { name: "REST API", value: 90 },
+      { name: "Laravel", icon: "/icons/skills/laravel.svg", note: "REST API & MVC" },
+      { name: "Flask", icon: "/icons/skills/flask.svg", note: "Python services" },
+      { name: "Golang API", icon: "/icons/skills/go.svg", note: "High-performance backend" },
+    ],
+  },
+  {
+    group: "Database",
+    summary:
+      "Terbiasa memakai database relasional maupun document store untuk aplikasi transactional dan data-driven.",
+    items: [
+      { name: "MySQL", icon: "/icons/skills/mysql.svg", note: "Transactional data" },
+      { name: "PostgreSQL", icon: "/icons/skills/postgresql.svg", note: "Relational SQL" },
+      { name: "MongoDB", icon: "/icons/skills/mongodb.svg", note: "Document store" },
+      { name: "Firebase", icon: "/icons/skills/firebase.svg", note: "Realtime & auth" },
     ],
   },
   {
     group: "Tools",
+    summary:
+      "Tooling harian yang saya gunakan untuk version control, containerization, desain, database management, dan mobile development.",
     items: [
-      { name: "React Native", value: 70 },
-      { name: "Docker", value: 65 },
-      { name: "Git / GitHub", value: 92 },
-      { name: "Figma", value: 76 },
+      { name: "Git", icon: "/icons/skills/git.svg", note: "Version control" },
+      { name: "Docker", icon: "/icons/skills/docker.svg", note: "Containers" },
+      { name: "Figma", icon: "/icons/skills/figma.svg", note: "UI prototyping" },
+      { name: "DBeaver", icon: "/icons/skills/dbeaver.svg", note: "Database client" },
+      { name: "VS Code", icon: "/icons/skills/vscode.svg", note: "Editor" },
+      { name: "Android Studio", icon: "/icons/skills/androidstudio.svg", note: "Mobile tooling" },
     ],
   },
-];
-
-const quickTags = [
-  "JavaScript",
-  "React",
-  "Node.js",
-  "Python",
-  "Supabase",
-  "MongoDB",
-  "AWS",
-  "Docker",
-  "Figma",
 ];
 
 const projects: Project[] = [
@@ -1297,31 +1329,52 @@ function WindowsPortfolio() {
 
             {id === "skills" ? (
               <div className={styles.windowBody}>
-                <h2 className={styles.sectionTitle}>Keahlian Teknis</h2>
-
-                {skills.map((group) => (
-                  <div key={group.group} className={styles.skillGroup}>
-                    <h3>{group.group}</h3>
-                    {group.items.map((item) => (
-                      <div key={item.name} className={styles.skillRow}>
-                        <span className={styles.skillName}>{item.name}</span>
-                        <div className={styles.skillTrack}>
-                          <div
-                            className={styles.skillFill}
-                            style={{ width: `${item.value}%` }}
-                          />
-                        </div>
-                        <span className={styles.skillValue}>{item.value}%</span>
-                      </div>
-                    ))}
+                <h2 className={styles.sectionTitle}>My Skills</h2>
+                <div className={styles.skillsIntroPanel}>
+                  <div className={styles.skillsIntroBadge}>CV</div>
+                  <div className={styles.skillsIntroCopy}>
+                    <h3>Stack yang saya gunakan di proyek nyata</h3>
+                    <p>
+                      Susunan skill ini mengikuti resume saya: fullstack web,
+                      aplikasi mobile, integrasi API, AI-driven systems, dan
+                      tooling development yang dipakai di freelance, internship,
+                      maupun produk yang sedang berjalan.
+                    </p>
                   </div>
-                ))}
+                </div>
 
-                <div className={styles.tagCloud}>
-                  {quickTags.map((tag) => (
-                    <span key={tag} className={styles.tag}>
-                      {tag}
-                    </span>
+                <div className={styles.skillsCatalog}>
+                  {skills.map((group) => (
+                    <section key={group.group} className={styles.skillCategoryCard}>
+                      <div className={styles.skillCategoryHeader}>
+                        <div>
+                          <h3>{group.group}</h3>
+                          <p>{group.summary}</p>
+                        </div>
+                        <span className={styles.skillCategoryMeta}>
+                          {group.items.length} items
+                        </span>
+                      </div>
+
+                      <div className={styles.skillTileGrid}>
+                        {group.items.map((item) => (
+                          <article key={item.name} className={styles.skillTile}>
+                            <div className={styles.skillTileIconBox}>
+                              <img
+                                src={item.icon}
+                                alt=""
+                                className={styles.skillTileIcon}
+                                draggable="false"
+                              />
+                            </div>
+                            <div className={styles.skillTileText}>
+                              <strong>{item.name}</strong>
+                              {item.note ? <span>{item.note}</span> : null}
+                            </div>
+                          </article>
+                        ))}
+                      </div>
+                    </section>
                   ))}
                 </div>
               </div>
