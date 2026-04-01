@@ -1484,10 +1484,6 @@ function WindowsPortfolio() {
                   </button>
                 </div>
 
-                <div className={styles.contactMeta}>
-                  Respons tercepat biasanya lewat email atau LinkedIn. Untuk
-                  kebutuhan diskusi awal yang singkat, WhatsApp juga tersedia.
-                </div>
               </div>
             ) : null}
 
