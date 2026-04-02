@@ -1,3 +1,4 @@
+export const DESKTOP_SCALE = 0.75;
 export const TASKBAR_HEIGHT = 38;
 export const WINDOW_MARGIN = 8;
 export const MIN_WINDOW_WIDTH = 280;

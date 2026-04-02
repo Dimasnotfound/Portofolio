@@ -7,6 +7,7 @@ import {
 } from "react";
 
 import {
+  DESKTOP_SCALE,
   MIN_WINDOW_HEIGHT,
   MIN_WINDOW_WIDTH,
   TASKBAR_HEIGHT,
@@ -71,6 +72,22 @@ export function usePortfolioDesktop() {
     return {
       width,
       height: Math.max(260, height - TASKBAR_HEIGHT),
+    };
+  };
+
+  const getDesktopPoint = (clientX: number, clientY: number) => {
+    const rect = desktopRef.current?.getBoundingClientRect();
+
+    if (!rect) {
+      return {
+        x: clientX / DESKTOP_SCALE,
+        y: clientY / DESKTOP_SCALE,
+      };
+    }
+
+    return {
+      x: (clientX - rect.left) / DESKTOP_SCALE,
+      y: (clientY - rect.top) / DESKTOP_SCALE,
     };
   };
 
@@ -267,6 +284,7 @@ export function usePortfolioDesktop() {
       const dragState = dragRef.current;
       const resizeState = resizeRef.current;
       const iconDragState = iconDragRef.current;
+      const pointer = getDesktopPoint(event.clientX, event.clientY);
 
       if (resizeState) {
         setWindows((current) => {
@@ -289,14 +307,14 @@ export function usePortfolioDesktop() {
           const minHeight = Math.min(MIN_WINDOW_HEIGHT, availableHeight);
           const nextWidth = Math.min(
             Math.max(
-              resizeState.startRect.width + (event.clientX - resizeState.startX),
+              resizeState.startRect.width + (pointer.x - resizeState.startX),
               minWidth,
             ),
             availableWidth,
           );
           const nextHeight = Math.min(
             Math.max(
-              resizeState.startRect.height + (event.clientY - resizeState.startY),
+              resizeState.startRect.height + (pointer.y - resizeState.startY),
               minHeight,
             ),
             availableHeight,
@@ -324,8 +342,8 @@ export function usePortfolioDesktop() {
       }
 
       if (iconDragState) {
-        const deltaX = event.clientX - iconDragState.startX;
-        const deltaY = event.clientY - iconDragState.startY;
+        const deltaX = pointer.x - iconDragState.startX;
+        const deltaY = pointer.y - iconDragState.startY;
 
         if (!iconDragState.moved && Math.abs(deltaX) < 4 && Math.abs(deltaY) < 4) {
           return;
@@ -337,8 +355,8 @@ export function usePortfolioDesktop() {
           const bounds = getDesktopBounds();
           const nextPosition = fitIconPosition(
             {
-              x: event.clientX - iconDragState.offsetX,
-              y: event.clientY - iconDragState.offsetY,
+              x: pointer.x - iconDragState.offsetX,
+              y: pointer.y - iconDragState.offsetY,
             },
             bounds,
             {
@@ -379,8 +397,8 @@ export function usePortfolioDesktop() {
         const nextRect = fitRect(
           {
             ...currentWindow.rect,
-            x: event.clientX - dragState.offsetX,
-            y: event.clientY - dragState.offsetY,
+            x: pointer.x - dragState.offsetX,
+            y: pointer.y - dragState.offsetY,
           },
           bounds,
         );
@@ -503,6 +521,7 @@ export function usePortfolioDesktop() {
     }
 
     const target = windows[id];
+    const pointer = getDesktopPoint(event.clientX, event.clientY);
 
     if (target.maximized) {
       return;
@@ -513,8 +532,8 @@ export function usePortfolioDesktop() {
     resizeRef.current = null;
     dragRef.current = {
       id,
-      offsetX: event.clientX - target.rect.x,
-      offsetY: event.clientY - target.rect.y,
+      offsetX: pointer.x - target.rect.x,
+      offsetY: pointer.y - target.rect.y,
     };
   };
 
@@ -527,6 +546,7 @@ export function usePortfolioDesktop() {
     }
 
     const target = windows[id];
+    const pointer = getDesktopPoint(event.clientX, event.clientY);
 
     if (target.maximized) {
       return;
@@ -539,8 +559,8 @@ export function usePortfolioDesktop() {
     iconDragRef.current = null;
     resizeRef.current = {
       id,
-      startX: event.clientX,
-      startY: event.clientY,
+      startX: pointer.x,
+      startY: pointer.y,
       startRect: target.rect,
     };
   };
@@ -575,17 +595,19 @@ export function usePortfolioDesktop() {
 
     event.preventDefault();
     const rect = event.currentTarget.getBoundingClientRect();
+    const pointer = getDesktopPoint(event.clientX, event.clientY);
+    const currentPosition = iconPositions[id];
     setSelectedIcon(id);
     dragRef.current = null;
     resizeRef.current = null;
     iconDragRef.current = {
       id,
-      startX: event.clientX,
-      startY: event.clientY,
-      offsetX: event.clientX - rect.left,
-      offsetY: event.clientY - rect.top,
-      width: rect.width,
-      height: rect.height,
+      startX: pointer.x,
+      startY: pointer.y,
+      offsetX: pointer.x - currentPosition.x,
+      offsetY: pointer.y - currentPosition.y,
+      width: rect.width / DESKTOP_SCALE,
+      height: rect.height / DESKTOP_SCALE,
       moved: false,
     };
   };

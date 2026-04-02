@@ -1,10 +1,21 @@
-.desktop {
+.desktopViewport {
+  --desktop-scale: 0.75;
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  background: #355f7b;
+}
+
+.desktop {
+  position: relative;
+  width: calc(100% / var(--desktop-scale));
+  height: calc(100% / var(--desktop-scale));
+  overflow: hidden;
   user-select: none;
   cursor: default;
+  transform: scale(var(--desktop-scale));
+  transform-origin: top left;
 }
 
 .wallpaper {
